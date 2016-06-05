@@ -1,0 +1,19 @@
+{
+  "name": "markdown-document",
+  "main": "./lib/markdown-document",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "keywords": [],
+  "activationCommands": {
+    "atom-workspace": "markdown-document:toggle"
+  },
+  "repository": "https://github.com/atom/markdown-document",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "markdown-toc": "https://github.com/kcyarn/markdown-toc/tarball/master",
+    "remarkable": "^1.6.2"
+  }
+}
