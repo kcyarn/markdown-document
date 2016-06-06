@@ -97,8 +97,10 @@ class MarkdownDocumentView
     #  outline = ''
     #  mdContent mdOutline
 
-    atom.workspace.observeActivePaneItem (item) ->
-      filePath = item.getPath()
+    # Appears to be an issue when opening a new pane. May only be related to Git Plus, which doesn't use an actual file!
+
+    atom.workspace.observeActivePaneItem (activePane) ->
+      filePath = activePane.getPath()
       outline = ''
       mdContent mdOutline
 
