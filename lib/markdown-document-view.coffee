@@ -25,6 +25,11 @@ class MarkdownDocumentView
     editorContent = ''
     outline = ''
 
+    # remarkable
+    md = new remarkable()
+
+    # Async get markdown file
+
     mdContent = (callback) ->
       read.readFile filePath, 'utf8',  (err, data) ->
         if err
@@ -34,9 +39,11 @@ class MarkdownDocumentView
         return
       return
 
+    # Parse markdown file, create toc, and convert to html.
+
     mdOutline = ->
       outlinedata = toc(editorContent).json
-      console.log outlinedata
+      #console.log outlinedata
       outlinedata.forEach (heading) ->
         if heading.lvl == 1
           outline += '- '
@@ -54,12 +61,12 @@ class MarkdownDocumentView
         outline += '(' + toc.linkify(heading.lines[0]) + ')'
         outline += '\n'
         return
-      console.log outline
+      #console.log outline
       # Remove all child nodes from message.
       while message.hasChildNodes()
         message.removeChild message.firstChild
-      outliner = document.createTextNode(outline)
-      message.appendChild(outliner)
+      render = md.render(outline)
+      message.innerHTML = render
       return
 
     test = ''
@@ -70,32 +77,9 @@ class MarkdownDocumentView
       editor.setCursorBufferPosition(position)
       editor.scrollToBufferPosition(position, center: true)
 
-    content = read.readFileSync filePath, 'utf8'
-    outlinedata = toc(content).json
-    outlinedata.forEach (heading) ->
-      if heading.lvl == 1
-        outline += '- '
-      if heading.lvl == 2
-        outline += '\t* '
-      if heading.lvl == 3
-        outline += '\t\t+ '
-      if heading.lvl == 4
-        outline += '\t\t\t- '
-      if heading.lvl == 5
-        outline += '\t\t\t\t* '
-      if heading.lvl == 6
-        outline += '\t\t\t\t\t+ '
-      outline += '[' + toc.linkify(heading.content) + ']'
-      outline += '(' + toc.linkify(heading.lines[0]) + ')'
-      outline += '\n'
-      return
-
-    md = new remarkable()
-    render = md.render(outline)
-
     # message.innerHTML = render
-    outliner = document.createTextNode(outline)
-    message.appendChild(outliner)
+
+    # Currently this is actually destroyed by the removeChild in MdOutline. Fine, because it's only purpose is a test click link.
     a = document.createElement('a')
     linkText = document.createTextNode('link text')
     a.appendChild(linkText)
@@ -108,14 +92,15 @@ class MarkdownDocumentView
 
     # This does change the filePath variable when the editor opens a new file. Does not refresh the existing markdown toc!
     # test does append the word testing to the existing modal. Needs to check if the modal contains the outline element. If true, remove. Then recreate!
-    atom.workspace.observeTextEditors (editor) ->
-      filePath = editor.getPath()
+    #atom.workspace.observeTextEditors (editor) ->
+    #  filePath = editor.getPath()
+    #  outline = ''
+    #  mdContent mdOutline
+
+    atom.workspace.observeActivePaneItem (item) ->
+      filePath = item.getPath()
       outline = ''
       mdContent mdOutline
-      test = document.createTextNode(' testing ')
-      message.appendChild(test)
-
-
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
