@@ -117,6 +117,7 @@ class MarkdownDocumentView
 
     atom.workspace.observeActivePaneItem (activePane) ->
       title = activePane.getTitle()
+      # Exceptions for settings and git plus
       if title == 'Settings'
         while message.hasChildNodes()
           message.removeChild message.firstChild
