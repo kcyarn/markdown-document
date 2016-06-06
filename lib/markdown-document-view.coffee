@@ -1,6 +1,6 @@
 {Point} = require('atom')
 toc = require('markdown-toc')
-read = require('fs')
+fs = require('fs-plus')
 remarkable = require('remarkable')
 
 module.exports =
@@ -31,7 +31,7 @@ class MarkdownDocumentView
     # Async get markdown file
 
     mdContent = (callback) ->
-      read.readFile filePath, 'utf8',  (err, data) ->
+      fs.readFile filePath, 'utf8',  (err, data) ->
         if err
           throw err
         editorContent = data

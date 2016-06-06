@@ -3,12 +3,12 @@ MarkdownDocumentView = require './markdown-document-view'
 
 module.exports = MarkdownDocument =
   markdownDocumentView: null
-  modalPanel: null
+  leftPanel: null
   subscriptions: null
 
   activate: (state) ->
     @markdownDocumentView = new MarkdownDocumentView(state.markdownDocumentViewState)
-    @modalPanel = atom.workspace.addModalPanel(item: @markdownDocumentView.getElement(), visible: false)
+    @leftPanel = atom.workspace.addLeftPanel(item: @markdownDocumentView.getElement(), visible: false)
 
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
@@ -17,7 +17,7 @@ module.exports = MarkdownDocument =
     @subscriptions.add atom.commands.add 'atom-workspace', 'markdown-document:toggle': => @toggle()
 
   deactivate: ->
-    @modalPanel.destroy()
+    @leftPanel.destroy()
     @subscriptions.dispose()
     @markdownDocumentView.destroy()
 
@@ -27,7 +27,7 @@ module.exports = MarkdownDocument =
   toggle: ->
     console.log 'MarkdownDocument was toggled!'
 
-    if @modalPanel.isVisible()
-      @modalPanel.hide()
+    if @leftPanel.isVisible()
+      @leftPanel.hide()
     else
-      @modalPanel.show()
+      @leftPanel.show()

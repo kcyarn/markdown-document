@@ -13,6 +13,7 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
+    "fs-plus": "^2.9.1",
     "markdown-toc": "https://github.com/kcyarn/markdown-toc/tarball/master",
     "remarkable": "^1.6.2"
   }
