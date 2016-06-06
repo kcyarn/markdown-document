@@ -1,4 +1,4 @@
-{Point} = require('atom')
+{TextEditor, Point} = require('atom')
 toc = require('markdown-toc')
 fs = require('fs-plus')
 remarkable = require('remarkable')
@@ -18,6 +18,10 @@ class MarkdownDocumentView
     @element.classList.add('md-document')
     # Create message element
     message = document.createElement('div')
+
+    #atom.config.set('MarkdownDocument.enableAutoSave', 'true')
+    checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')
+    console.log checkAutoSave
 
     # Get editor
     editor = atom.workspace.getActiveTextEditor()
@@ -77,10 +81,10 @@ class MarkdownDocumentView
       message.innerHTML = render
       mdLink = message.getElementsByTagName('a')
       console.log mdLink
-      i = 0
-      while i < mdLink.length
-        mdLink[i].addEventListener 'click', handleClick
-        i++
+      a = 0
+      while a < mdLink.length
+        mdLink[a].addEventListener 'click', handleClick
+        a++
 
     handleClick = ->
       lineNumber = parseInt(@getAttribute('href'))
@@ -90,15 +94,6 @@ class MarkdownDocumentView
       editor.scrollToBufferPosition(position, center: true)
       atom.views.getView(atom.workspace).focus()
 
-    # message.innerHTML = render
-
-    # Currently this is actually destroyed by the removeChild in MdOutline. Fine, because it's only purpose is a test click link.
-    a = document.createElement('a')
-    linkText = document.createTextNode('link text')
-    a.appendChild(linkText)
-    a.id = 'myLink'
-    a.addEventListener 'click', handleClick
-    message.appendChild(a)
     message.classList.add('message')
 
     @element.appendChild(message)
@@ -110,18 +105,31 @@ class MarkdownDocumentView
     #  outline = ''
     #  mdContent mdOutline
 
+    #autoSave = setInterval((->
+    #  console.log 'hi'
+    #  return
+    #), 1000)
+
+    #clearInterval autoSave
+
+
     # Appears to be an issue when opening a new pane. May only be related to Git Plus, which doesn't use an actual file!
 
     atom.workspace.observeActivePaneItem (activePane) ->
-      filePath = activePane.getPath()
-      filePathExt = getExtension filePath
-      extTest = fs.isMarkdownExtension(filePathExt)
-      outline = ''
-      if extTest == true
-        mdContent mdOutline
-      else
+      title = activePane.getTitle()
+      if title == 'Settings'
         while message.hasChildNodes()
           message.removeChild message.firstChild
+      else
+        filePath = activePane.getPath()
+        filePathExt = getExtension filePath
+        extTest = fs.isMarkdownExtension(filePathExt)
+        outline = ''
+        if extTest == true
+          mdContent mdOutline
+        else
+          while message.hasChildNodes()
+            message.removeChild message.firstChild
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
