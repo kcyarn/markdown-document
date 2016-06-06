@@ -12,7 +12,14 @@ class MarkdownDocumentView
     # editor = atom.workspace.getActiveTextEditor()
   #  for linenumber in [editor.getLastBufferRow()..0]
   #    linetext = editor.lineTextForBufferRow(linenumber)
+
     # Create root element
+    @element = document.createElement('div')
+    @element.classList.add('md-document')
+    # Create message element
+    message = document.createElement('div')
+
+    # Get editor
     editor = atom.workspace.getActiveTextEditor()
     filePath = editor.getPath()
     editorContent = ''
@@ -48,6 +55,11 @@ class MarkdownDocumentView
         outline += '\n'
         return
       console.log outline
+      # Remove all child nodes from message.
+      while message.hasChildNodes()
+        message.removeChild message.firstChild
+      outliner = document.createTextNode(outline)
+      message.appendChild(outliner)
       return
 
     test = ''
@@ -81,11 +93,6 @@ class MarkdownDocumentView
     md = new remarkable()
     render = md.render(outline)
 
-    @element = document.createElement('div')
-    @element.classList.add('md-document')
-
-    # Create message element
-    message = document.createElement('div')
     # message.innerHTML = render
     outliner = document.createTextNode(outline)
     message.appendChild(outliner)
