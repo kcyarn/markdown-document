@@ -28,6 +28,15 @@ class MarkdownDocumentView
     # remarkable
     md = new remarkable()
 
+    # Test if Extension is markdown
+    getExtension = (filename) ->
+      i = filename.lastIndexOf('.')
+      if i < 0 then '' else filename.substr(i)
+
+    #console.log filePathExt
+
+    #console.log fs.isMarkdownExtension(filePathExt)
+
     # Async get markdown file
 
     mdContent = (callback) ->
@@ -40,7 +49,6 @@ class MarkdownDocumentView
       return
 
     # Parse markdown file, create toc, and convert to html.
-
     mdOutline = ->
       outlinedata = toc(editorContent).json
       #console.log outlinedata
@@ -101,8 +109,14 @@ class MarkdownDocumentView
 
     atom.workspace.observeActivePaneItem (activePane) ->
       filePath = activePane.getPath()
+      filePathExt = getExtension filePath
+      extTest = fs.isMarkdownExtension(filePathExt)
       outline = ''
-      mdContent mdOutline
+      if extTest == true
+        mdContent mdOutline
+      else
+        while message.hasChildNodes()
+          message.removeChild message.firstChild
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
