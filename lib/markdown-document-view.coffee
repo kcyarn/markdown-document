@@ -51,11 +51,6 @@ class MarkdownDocumentView
       return
 
     test = ''
-    # This does change the filePath variable when the editor opens a new file. Does not refresh the existing markdown toc!
-    atom.workspace.observeTextEditors (editor) ->
-      filePath = editor.getPath()
-      outline = ''
-      mdContent mdOutline
 
     handleClick = ->
       console.log 'link clicked'
@@ -92,10 +87,10 @@ class MarkdownDocumentView
     # Create message element
     message = document.createElement('div')
     # message.innerHTML = render
-    outline = document.createTextNode(outline)
+    outliner = document.createTextNode(outline)
+    message.appendChild(outliner)
     a = document.createElement('a')
     linkText = document.createTextNode('link text')
-    a.appendChild(outline)
     a.appendChild(linkText)
     a.id = 'myLink'
     a.addEventListener 'click', handleClick
@@ -103,6 +98,17 @@ class MarkdownDocumentView
     message.classList.add('message')
 
     @element.appendChild(message)
+
+    # This does change the filePath variable when the editor opens a new file. Does not refresh the existing markdown toc!
+    # test does append the word testing to the existing modal. Needs to check if the modal contains the outline element. If true, remove. Then recreate!
+    atom.workspace.observeTextEditors (editor) ->
+      filePath = editor.getPath()
+      outline = ''
+      mdContent mdOutline
+      test = document.createTextNode(' testing ')
+      message.appendChild(test)
+
+
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
