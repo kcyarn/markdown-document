@@ -75,15 +75,20 @@ class MarkdownDocumentView
         message.removeChild message.firstChild
       render = md.render(outline)
       message.innerHTML = render
-      return
-
-    test = ''
+      mdLink = message.getElementsByTagName('a')
+      console.log mdLink
+      i = 0
+      while i < mdLink.length
+        mdLink[i].addEventListener 'click', handleClick
+        i++
 
     handleClick = ->
-      console.log 'link clicked'
-      position = new Point(7, 0)
+      lineNumber = parseInt(@getAttribute('href'))
+      position = new Point(lineNumber, 0)
       editor.setCursorBufferPosition(position)
+      editor.moveToEndOfLine(lineNumber)
       editor.scrollToBufferPosition(position, center: true)
+      atom.views.getView(atom.workspace).focus()
 
     # message.innerHTML = render
 
