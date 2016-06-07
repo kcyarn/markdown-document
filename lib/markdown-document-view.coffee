@@ -25,6 +25,7 @@ class MarkdownDocumentView
       refreshHeading.classList.add('panel-heading')
       refreshBtn = document.createElement('button')
       refreshBtn.classList.add('btn')
+      refreshBtn.addEventListener 'click', refreshClick
       refreshIcon = document.createElement('span')
       refreshIcon.textContent = 'Refresh'
       refreshIcon.classList.add('icon')
@@ -81,6 +82,7 @@ class MarkdownDocumentView
     mdOutline = ->
       outlinedata = toc(editorContent).json
       #console.log outlinedata
+      outline = ''
       outlinedata.forEach (heading) ->
         if heading.lvl == 1
           outline += '- '
@@ -115,6 +117,11 @@ class MarkdownDocumentView
       document.getElementById('markdown-outline').appendChild(outliner)
       return
 
+    refreshClick = ->
+      removeOutline()
+      createOutlineRefresh()
+      mdContent mdOutline
+
     handleClick = ->
       lineNumber = parseInt(@getAttribute('href'))
       position = new Point(lineNumber, 0)
@@ -130,28 +137,23 @@ class MarkdownDocumentView
     #  outline = ''
     #  mdContent mdOutline
 
-    #autoSave = setInterval((->
+    #autoSave = setTimeOut((->
     #  console.log 'hi'
     #  return
     #), 1000)
 
-    #clearInterval autoSave
+    #clearTimeOut autoSave
 
     # Appears to be an issue when opening a new pane. May only be related to Git Plus, which doesn't use an actual file!
 
-  #  atom.workspace?.getPanes().some (pane) ->
-  #    pane.getItems().some (paneItem) ->
-    #    if paneItem?.getURI?()?.includes 'COMMIT_EDITMSG'
-    #      removeOutline()
-
-    atom.workspace?.observeActivePaneItem (activePane) ->
+    atom.workspace.observeActivePaneItem (activePane) ->
       if activePane == undefined
         removeOutline()
         console.log 'activepane null'
       else
         title = activePane.getTitle()
         # Exceptions for settings and git plus
-        if title == 'Settings' or title == 'COMMIT_EDITMSG'
+        if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide'
           removeOutline()
         else
           filePath = activePane.getPath()
