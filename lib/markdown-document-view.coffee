@@ -15,9 +15,34 @@ class MarkdownDocumentView
 
     # Create root element
     @element = document.createElement('div')
-    @element.classList.add('md-document')
-    # Create message element
-    message = document.createElement('div')
+    @element.classList.add('markdown-document')
+    @element.classList.add('panel')
+    @element.id = 'markdown-outline'
+
+    # Create Refresh Button
+    createOutlineRefresh = ->
+      refreshHeading = document.createElement('div')
+      refreshHeading.classList.add('panel-heading')
+      refreshBtn = document.createElement('button')
+      refreshBtn.classList.add('btn')
+      refreshIcon = document.createElement('span')
+      refreshIcon.textContent = 'Refresh'
+      refreshIcon.classList.add('icon')
+      refreshIcon.classList.add('icon-sync')
+      refreshBtn.appendChild(refreshIcon)
+      refreshHeading.appendChild(refreshBtn)
+      document.getElementById('markdown-outline').appendChild(refreshHeading)
+      return
+
+    # Create outliner element
+    outliner = document.createElement('div')
+
+    # Remove all markdown-outline children function
+    removeOutline = ->
+      markdownOutline = document.getElementById('markdown-outline')
+      while markdownOutline.firstChild
+        markdownOutline.removeChild markdownOutline.firstChild
+      return
 
     #atom.config.set('MarkdownDocument.enableAutoSave', 'true')
     checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')
@@ -74,17 +99,21 @@ class MarkdownDocumentView
         outline += '\n'
         return
       #console.log outline
-      # Remove all child nodes from message.
-      while message.hasChildNodes()
-        message.removeChild message.firstChild
+      # Remove all child nodes from outliner.
+      removeOutline()
+      createOutlineRefresh()
       render = md.render(outline)
-      message.innerHTML = render
-      mdLink = message.getElementsByTagName('a')
+      outliner.innerHTML = render
+      mdLink = outliner.getElementsByTagName('a')
       console.log mdLink
       a = 0
       while a < mdLink.length
         mdLink[a].addEventListener 'click', handleClick
         a++
+      outliner.classList.add('panel-body')
+      outliner.classList.add('padded')
+      document.getElementById('markdown-outline').appendChild(outliner)
+      return
 
     handleClick = ->
       lineNumber = parseInt(@getAttribute('href'))
@@ -93,10 +122,6 @@ class MarkdownDocumentView
       editor.moveToEndOfLine(lineNumber)
       editor.scrollToBufferPosition(position, center: true)
       atom.views.getView(atom.workspace).focus()
-
-    message.classList.add('message')
-
-    @element.appendChild(message)
 
     # This does change the filePath variable when the editor opens a new file. Does not refresh the existing markdown toc!
     # test does append the word testing to the existing modal. Needs to check if the modal contains the outline element. If true, remove. Then recreate!
@@ -112,15 +137,13 @@ class MarkdownDocumentView
 
     #clearInterval autoSave
 
-
     # Appears to be an issue when opening a new pane. May only be related to Git Plus, which doesn't use an actual file!
 
     atom.workspace.observeActivePaneItem (activePane) ->
       title = activePane.getTitle()
       # Exceptions for settings and git plus
       if title == 'Settings'
-        while message.hasChildNodes()
-          message.removeChild message.firstChild
+        removeOutline()
       else
         filePath = activePane.getPath()
         filePathExt = getExtension filePath
@@ -129,8 +152,7 @@ class MarkdownDocumentView
         if extTest == true
           mdContent mdOutline
         else
-          while message.hasChildNodes()
-            message.removeChild message.firstChild
+          removeOutline()
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
