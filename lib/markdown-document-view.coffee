@@ -107,11 +107,22 @@ class MarkdownDocumentView
       render = md.render(outline)
       outliner.innerHTML = render
       mdLink = outliner.getElementsByTagName('a')
-      console.log mdLink
       a = 0
       while a < mdLink.length
         mdLink[a].addEventListener 'click', handleClick
         a++
+      mdList = outliner.getElementsByTagName('ul')
+      i = 1
+      while i < mdList.length
+        checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkbox.id = i
+        label = document.createElement('label')
+        label.setAttribute('for', i)
+        checkbox.appendChild(label)
+        mdList[i].parentNode.insertBefore(checkbox, mdList[i].parentNode.children[0])
+        i++
+
       outliner.classList.add('panel-body')
       outliner.classList.add('padded')
       document.getElementById('markdown-outline').appendChild(outliner)

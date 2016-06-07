@@ -10,4 +10,34 @@
     margin-top: 3px;
     margin-bottom: -3px;
 }
+
+li {
+  list-style: none;
+}
+
+li input[type='checkbox'] + label:before {
+  font-family: "Octicons Regular";
+  content:'\f078';
+}
+li input[type='checkbox']:checked + label:before {
+    content:"\f0a3";
+}
+
+li input[type='checkbox'] {
+
+}
+
+li input a {
+  padding-left: 0.5em;
+}
+  li input + a + ul
+  {
+    display: none
+  }
+
+li input:checked + a + ul
+{
+  display: block
+}
+
 }
