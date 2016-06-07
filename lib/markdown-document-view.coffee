@@ -86,17 +86,23 @@ class MarkdownDocumentView
       outlinedata.forEach (heading) ->
         if heading.lvl == 1
           outline += '- '
+          pounds = '# '
         if heading.lvl == 2
           outline += '\t* '
+          pounds = '## '
         if heading.lvl == 3
           outline += '\t\t+ '
+          pounds = '### '
         if heading.lvl == 4
           outline += '\t\t\t- '
+          pounds = '#### '
         if heading.lvl == 5
           outline += '\t\t\t\t* '
+          pounds = '##### '
         if heading.lvl == 6
           outline += '\t\t\t\t\t+ '
-        outline += '[' + toc.linkify(heading.content) + ']'
+          pounds = '###### '
+        outline += '[' + pounds + toc.linkify(heading.content) + ']'
         outline += '(' + toc.linkify(heading.lines[0]) + ')'
         outline += '\n'
         return
@@ -114,12 +120,12 @@ class MarkdownDocumentView
       mdList = outliner.getElementsByTagName('ul')
       i = 1
       while i < mdList.length
+        label = document.createElement('label')
+        label.setAttribute('for', i)
         checkbox = document.createElement('input')
         checkbox.type = 'checkbox'
         checkbox.id = i
-        label = document.createElement('label')
-        label.setAttribute('for', i)
-        checkbox.appendChild(label)
+        mdList[i].parentNode.insertBefore(label, mdList[i].parentNode.children[0])
         mdList[i].parentNode.insertBefore(checkbox, mdList[i].parentNode.children[0])
         i++
 

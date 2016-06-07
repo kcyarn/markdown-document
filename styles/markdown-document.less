@@ -11,8 +11,18 @@
     margin-bottom: -3px;
 }
 
+.panel-body {
+  width: 20vw;
+}
+ul {
+  margin-left: -2em;
+}
 li {
   list-style: none;
+}
+li input[type='checkbox'] + label {
+    padding-right: 0.7em;
+    font-size: 1.1em;
 }
 
 li input[type='checkbox'] + label:before {
@@ -24,20 +34,20 @@ li input[type='checkbox']:checked + label:before {
 }
 
 li input[type='checkbox'] {
-
+  display: none
 }
-
-li input a {
-  padding-left: 0.5em;
-}
-  li input + a + ul
+  li input + label + a + ul
   {
     display: none
   }
 
-li input:checked + a + ul
+li input:checked + label + a + ul
 {
   display: block
+}
+
+li a:only-child {
+    padding-left: 1.3em;
 }
 
 }

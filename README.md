@@ -23,6 +23,8 @@ A short description of your package.
 
 ###### 6th level header
 
+####### 7th header shouldn't appear
+
 ## 2nd level
 
 ### 3rd level
