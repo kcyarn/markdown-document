@@ -139,20 +139,29 @@ class MarkdownDocumentView
 
     # Appears to be an issue when opening a new pane. May only be related to Git Plus, which doesn't use an actual file!
 
-    atom.workspace.observeActivePaneItem (activePane) ->
-      title = activePane.getTitle()
-      # Exceptions for settings and git plus
-      if title == 'Settings'
+  #  atom.workspace?.getPanes().some (pane) ->
+  #    pane.getItems().some (paneItem) ->
+    #    if paneItem?.getURI?()?.includes 'COMMIT_EDITMSG'
+    #      removeOutline()
+
+    atom.workspace?.observeActivePaneItem (activePane) ->
+      if activePane == undefined
         removeOutline()
+        console.log 'activepane null'
       else
-        filePath = activePane.getPath()
-        filePathExt = getExtension filePath
-        extTest = fs.isMarkdownExtension(filePathExt)
-        outline = ''
-        if extTest == true
-          mdContent mdOutline
-        else
+        title = activePane.getTitle()
+        # Exceptions for settings and git plus
+        if title == 'Settings' or title == 'COMMIT_EDITMSG'
           removeOutline()
+        else
+          filePath = activePane.getPath()
+          filePathExt = getExtension filePath
+          extTest = fs.isMarkdownExtension(filePathExt)
+          outline = ''
+          if extTest == true
+            mdContent mdOutline
+          else
+            removeOutline()
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
