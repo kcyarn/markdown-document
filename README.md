@@ -1,36 +1,22 @@
 
-# md-document package
+# Markdown-Document Package
 
-A short description of your package.
+Adds tools to make working with long form markdown documents in [Atom](https://atom.io) easier.
 
 ![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
 
-## Another header
+## Features
 
-### 3rd header
+### Outline View
 
-# 1st header
+- **Expandable Outline View**
+- **Click to go to header**
 
-## 2nd header
+When adding new headers to the document, the Outline View does not automatically refresh. You must manually refresh the view.  
 
-### 3rd header
+### Autosave
 
-#### 4th header
+- **Saves as you write!**
+  * Go to Settings(ctrl-,) -> Packages -> markdown-document -> Settings -> Set "Enable Autosave"
 
-#### 5th header
-
-##### 5th level header
-
-###### 6th level header
-
-####### 7th header shouldn't appear
-
-## 2nd level
-
-### 3rd level
-
-## 2nd level
-
-# 1st level
-
-## 2nd level
+At present, autosave is only available for markdown files when the outline view is visible. It is not available for non-markdown files. Autosave may become its own package in the future or become available outside the outline view. Please weigh in on [Issue ]()

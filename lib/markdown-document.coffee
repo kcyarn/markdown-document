@@ -32,8 +32,6 @@ module.exports = MarkdownDocument =
     markdownDocumentViewState: @markdownDocumentView.serialize()
 
   toggle: ->
-    console.log 'MarkdownDocument was toggled!'
-
     if @leftPanel.isVisible()
       @leftPanel.hide()
     else
