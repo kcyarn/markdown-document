@@ -25,8 +25,6 @@ A short description of your package.
 
 ####### 7th header shouldn't appear
 
-Adding some new text here. A new let's change some text. It does wait a few seconds before firing. Begin changing. Let's see if this automatically saves itself. It appears to. The autosaver should now work. Slowing down a bit to think gives more than enough time for the text to autosave. The autosaver is not off!
-
 ## 2nd level
 
 ### 3rd level

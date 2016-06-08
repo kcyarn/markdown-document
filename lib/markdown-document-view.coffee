@@ -152,14 +152,14 @@ class MarkdownDocumentView
     if checkAutoSave
       editor.onDidStopChanging () ->
         editor.save()
-        console.log 'text saved'
 
     disableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'false')
+    enableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'true')
 
     atom.workspace.observeActivePaneItem (activePane) ->
       if activePane == undefined
         removeOutline()
-        console.log 'activepane null'
+        disableAutoSave
       else
         title = activePane.getTitle()
         # Exceptions for settings and git plus
@@ -173,8 +173,11 @@ class MarkdownDocumentView
           outline = ''
           if extTest == true
             mdContent mdOutline
+            if checkAutoSave
+              enableAutoSave
           else
             removeOutline()
+            disableAutoSave
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
