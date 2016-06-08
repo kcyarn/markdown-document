@@ -53,7 +53,7 @@ Must Haves:
 - Spellcheck GUI modeled after Atom's Find.
     * Would love project-level dictionaries.
 - Writing Goals
-- Improved writing stats. (Wordcount)[https://atom.io/packages/wordcount] is nice, but I personally need more data.
+- Improved writing stats. [Wordcount](https://atom.io/packages/wordcount) is nice, but I personally need more data.
 
 Maybes:
 
