@@ -22,6 +22,7 @@ module.exports = MarkdownDocument =
 
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'markdown-document:toggle': => @toggle()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'markdown-document:refresh': => @refresh()
 
   deactivate: ->
     @leftPanel.destroy()
@@ -36,3 +37,6 @@ module.exports = MarkdownDocument =
       @leftPanel.hide()
     else
       @leftPanel.show()
+
+  refresh: ->
+    @markdownDocumentView.refreshOutline()

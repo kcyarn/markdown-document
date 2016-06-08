@@ -16,6 +16,10 @@
           'label': 'Toggle Outline View'
           'command': 'markdown-document:toggle'
         }
+        {
+          'label': 'Refresh Outline View'
+          'command': 'markdown-document:refresh'
+        }
       ]
     ]
   }

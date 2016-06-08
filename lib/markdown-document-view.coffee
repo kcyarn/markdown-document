@@ -133,7 +133,8 @@ class MarkdownDocumentView
       document.getElementById('markdown-outline').appendChild(outliner)
       return
 
-    refreshClick = ->
+    refreshClick =
+    @refreshClick = ->
       removeOutline()
       createOutlineRefresh()
       mdContent mdOutline
@@ -188,3 +189,6 @@ class MarkdownDocumentView
 
   getElement: ->
     @element
+
+  refreshOutline: ->
+    @refreshClick()
