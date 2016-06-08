@@ -8,13 +8,6 @@ module.exports = MarkdownDocument =
       type: 'boolean'
       default: true
       order: 0
-    autoSaveTime:
-      type: 'string'
-      default: '15'
-      title: 'Autosave Options:'
-      description: 'Save document every x seconds. Defaults: 15'
-      dependencies: ['enableAutoSave']
-      order: 10
 
   markdownDocumentView: null
   leftPanel: null

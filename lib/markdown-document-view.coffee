@@ -5,7 +5,6 @@ remarkable = require('remarkable')
 
 module.exports =
 class MarkdownDocumentView
-
   constructor: (serializedState) ->
 
 # Commented out editor returns first line!
@@ -41,17 +40,17 @@ class MarkdownDocumentView
     # Remove all markdown-outline children function
     removeOutline = ->
       markdownOutline = document.getElementById('markdown-outline')
-      while markdownOutline.firstChild
-        markdownOutline.removeChild markdownOutline.firstChild
-      return
-
-    #atom.config.set('MarkdownDocument.enableAutoSave', 'true')
-    checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')
-    console.log checkAutoSave
+      if markdownOutline != null
+        while markdownOutline.firstChild
+          markdownOutline.removeChild markdownOutline.firstChild
+        return
 
     # Get editor
     editor = atom.workspace.getActiveTextEditor()
-    filePath = editor.getPath()
+    if editor == undefined
+      filePath = ''
+    else
+      filePath = editor.getPath()
     editorContent = ''
     outline = ''
 
@@ -147,21 +146,15 @@ class MarkdownDocumentView
       editor.scrollToBufferPosition(position, center: true)
       atom.views.getView(atom.workspace).focus()
 
-    # This does change the filePath variable when the editor opens a new file. Does not refresh the existing markdown toc!
-    # test does append the word testing to the existing modal. Needs to check if the modal contains the outline element. If true, remove. Then recreate!
-    #atom.workspace.observeTextEditors (editor) ->
-    #  filePath = editor.getPath()
-    #  outline = ''
-    #  mdContent mdOutline
+    # Autosaver, currently only runs if the outline sidebar is open!
+    #atom.config.set('MarkdownDocument.enableAutoSave', 'true')
+    checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')
+    if checkAutoSave
+      editor.onDidStopChanging () ->
+        editor.save()
+        console.log 'text saved'
 
-    #autoSave = setTimeOut((->
-    #  console.log 'hi'
-    #  return
-    #), 1000)
-
-    #clearTimeOut autoSave
-
-    # Appears to be an issue when opening a new pane. May only be related to Git Plus, which doesn't use an actual file!
+    disableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'false')
 
     atom.workspace.observeActivePaneItem (activePane) ->
       if activePane == undefined
@@ -170,8 +163,9 @@ class MarkdownDocumentView
       else
         title = activePane.getTitle()
         # Exceptions for settings and git plus
-        if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide'
+        if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide' or title.includes(' Preview')
           removeOutline()
+          disableAutoSave
         else
           filePath = activePane.getPath()
           filePathExt = getExtension filePath
