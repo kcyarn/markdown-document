@@ -1,3 +1,3 @@
 # 0.1.0 - First Release
-* Every feature added
-* Every bug fixed
+* Outline View
+* Autosave when outline view enabled.
