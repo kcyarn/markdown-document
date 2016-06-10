@@ -2,6 +2,7 @@
   "name": "markdown-document",
   "main": "./lib/markdown-document",
   "version": "0.1.0",
+  "license": "MIT",
   "description": "Adds tools to make working with long form markdown documents in Atom easier.",
   "keywords": [
     "markdown",
@@ -14,7 +15,6 @@
     "atom-workspace": "markdown-document:toggle"
   },
   "repository": "https://github.com/kcyarn/markdown-document",
-  "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
