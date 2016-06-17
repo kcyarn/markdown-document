@@ -57,3 +57,45 @@
 ###### A Sixth Header
 
 ## B Second Header
+
+# Heading Two Missing
+
+### Heading Two missing
+
+# Heading 2 3 Missing
+
+#### Heading 2 3 missing
+
+# Heading 2 3 4 Missing
+
+##### Heading 2 3 4 Missing
+
+# Heading 2 3 4 5 Missing
+
+###### Heading 2 3 4 5 Missing
+
+## Heading 3 Missing
+
+#### Heading 3 Missing
+
+## Heading 3 4 Missing
+
+##### Heading 3 4 missing
+
+## Heading Heading 3 4 5 Missing
+
+###### Heading 3 4 5 Missing
+
+### Heading 4 Missing
+
+##### Heading 4 Missing
+
+### heading 4 5 Missing
+
+###### Heading 3 4 missing
+
+#### Heading 5 missing
+
+###### Heading 5 missing
+
+

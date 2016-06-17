@@ -143,6 +143,7 @@ class MarkdownDocumentView
       currentHeadingFive = 0
       currentHeadingSix = 0
       previousHeadingLevel = 0
+                
       outlinedata.forEach (heading) ->
         outlineItem =
           title: heading.content
@@ -150,6 +151,46 @@ class MarkdownDocumentView
           lvl: heading.lvl
           index: heading.i
           children: []
+        
+        headingTwo = ->
+          if outlineJSON[currentHeadingOne].children.length < 1
+            currentHeadingTwo = 0
+          else
+            currentHeadingTwo = nextHeadingTwo
+          outlineJSON[currentHeadingOne].children.push outlineItem 
+          nextHeadingTwo = currentHeadingTwo + 1
+          previousHeadingLevel = heading.lvl
+        headingThree = ->
+          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children.length < 1
+            currentHeadingThree = 0
+          else
+            currentHeadingThree = nextHeadingThree
+          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children.push outlineItem
+          nextHeadingThree = currentHeadingThree + 1
+          previousHeadingLevel = heading.lvl          
+        headingFour = ->
+          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children.length < 1
+            currentHeadingFour = 0
+          else
+            currentHeadingFour = nextHeadingFour
+          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children.push outlineItem
+          nextHeadingFour = currentHeadingFour + 1
+        headingFive = ->
+          firstThree = outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree]
+          if firstThree.children[currentHeadingFour].children.length < 1
+            currentHeadingFive = 0
+          else
+            currentHeadingFive = nextHeadingFive
+          firstThree.children[currentHeadingFour].children.push outlineItem
+          nextHeadingFive = currentHeadingFive + 1
+        headingSix = ->
+          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children[currentHeadingFive].children.length < 1
+            currentHeadingSix = 0
+          else
+            currentHeadingSix = nextHeadingSix
+          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children[currentHeadingFive].children.push outlineItem
+          nextHeadingSix = currentHeadingSix + 1
+          
         if heading.lvl == 1
           # Level 1 always autoincrements in order.
           currentHeadingOne = nextHeadingOne
@@ -158,48 +199,48 @@ class MarkdownDocumentView
           previousHeadingLevel = heading.lvl
           
         if heading.lvl == 2
+          console.log heading.lvl
+          console.log previousHeadingLevel
           console.log heading.lvl - previousHeadingLevel
-          if outlineJSON[currentHeadingOne].children.length < 1
-            currentHeadingTwo = 0
-          else
-            currentHeadingTwo = nextHeadingTwo
-          outlineJSON[currentHeadingOne].children.push outlineItem 
-          nextHeadingTwo = currentHeadingTwo + 1
-          previousHeadingLevel = heading.lvl              
+          headingTwo()         
           
         if heading.lvl == 3
-          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children.length < 1
-            currentHeadingThree = 0
-          else
-            currentHeadingThree = nextHeadingThree
-          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children.push outlineItem
-          nextHeadingThree = currentHeadingThree + 1
-          previousHeadingLevel = heading.lvl
+          if (heading.lvl - previousHeadingLevel) <= 1
+            headingThree()
+          else if previousHeadingLevel == 1
+            headingTwo()
           
         if heading.lvl == 4
-          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children.length < 1
-            currentHeadingFour = 0
-          else
-            currentHeadingFour = nextHeadingFour
-          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children.push outlineItem
-          nextHeadingFour = currentHeadingFour + 1
+          if (heading.lvl - previousHeadingLevel) <= 1
+            headingFour()
+          else if previousHeadingLevel == 2
+            headingThree()
+          else if previousHeadingLevel == 1
+            headingTwo()
 
         if heading.lvl == 5
-          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children.length < 1
-            currentHeadingFive = 0
-          else
-            currentHeadingFive = nextHeadingFive
-          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children.push outlineItem
-          nextHeadingFive = currentHeadingFive + 1
+          console.log 'heading five'
+          if (heading.lvl - previousHeadingLevel) <= 1
+            headingFive()
+          else if previousHeadingLevel == 3
+            headingFour()
+          else if previousHeadingLevel == 2
+            headingThree()
+          else if previousHeadingLevel == 1
+            headingTwo()
           
         if heading.lvl == 6
-          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children[currentHeadingFive].children.length < 1
-            currentHeadingSix = 0
-          else
-            currentHeadingSix = nextHeadingSix
-          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children[currentHeadingFive].children.push outlineItem
-          nextHeadingSix = currentHeadingSix + 1
-
+          console.log 'heading six'
+          if (heading.lvl - previousHeadingLevel) <= 1
+            headingSix()
+          else if previousHeadingLevel == 4
+            headingFive()
+          else if previousHeadingLevel == 3
+            headingFour()
+          else if previousHeadingLevel == 2
+            headingThree()
+          else if previousHeadingLevel == 1
+            headingTwo()
         return
       console.log JSON.stringify(outlineJSON)
       #console.log outline
