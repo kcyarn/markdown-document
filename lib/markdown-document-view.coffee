@@ -62,11 +62,11 @@ class MarkdownDocumentView
     
     # Check if active layer uses a markdown scope.
     markdownGrammar = ->
-      thisGrammar = editor.getGrammar().scopeName
-      if thisGrammar of markdownDocumentGrammars
+      thisGrammar = editor?.getGrammar().scopeName
+      if markdownDocumentGrammars.indexOf(thisGrammar) > -1
         console.log 'This is a markdown file.'
       else
-        console.log 'Is not a markdown file'
+        console.log 'This is not a markdown file.'
     
     # remarkable
     md = new Remarkable()
