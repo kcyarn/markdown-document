@@ -17,6 +17,8 @@ When adding new headers to the document, the Outline View does not automatically
 
 ### Autosave
 
+Continue writing content here. See if it still fires.
+
 - **Saves as you write!**
   * Go to Settings(ctrl-,) -> Packages -> markdown-document -> Settings -> Set "Enable Autosave"
 

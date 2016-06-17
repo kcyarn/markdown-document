@@ -4,10 +4,14 @@ MarkdownDocumentView = require './markdown-document-view'
 module.exports = MarkdownDocument =
   config:
     enableAutoSave:
-      title: 'Enable Autosave'
       type: 'boolean'
-      default: true
+      default: false
       order: 0
+    markdownScopes:
+      type: 'array'
+      default: ['source.gfm', 'text.md', 'text.plain', 'text.plain.null-grammar']
+      items:
+        type: 'string'
 
   markdownDocumentView: null
   leftPanel: null
@@ -28,6 +32,7 @@ module.exports = MarkdownDocument =
     @leftPanel.destroy()
     @subscriptions.dispose()
     @markdownDocumentView.destroy()
+    
 
   serialize: ->
     markdownDocumentViewState: @markdownDocumentView.serialize()

@@ -1,7 +1,7 @@
 {TextEditor, Point} = require('atom')
 toc = require('markdown-toc')
 fs = require('fs-plus')
-remarkable = require('remarkable')
+Remarkable = require('remarkable')
 
 module.exports =
 class MarkdownDocumentView
@@ -53,9 +53,28 @@ class MarkdownDocumentView
       filePath = editor.getPath()
     editorContent = ''
     outline = ''
-
+    
+    # Config not fetching default values hack!    
+    markdownDocumentGrammars = atom.config.get('MarkdownDocument.markdownScopes')
+    if markdownDocumentGrammars == null or markdownDocumentGrammars == undefined
+      markdownScopesArray = ['source.gfm', 'text.md', 'text.plain', 'text.plain.null-grammar']
+      atom.config.set('MarkdownDocument.markdownScopes', markdownScopesArray)
+      markdownDocumentGrammars = atom.config.get('MarkdownDocument.markdownScopes')
+    checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')
+    if checkAutoSave == null or checkAutoSave == undefined
+      atom.config.set('MarkdownDocument.enableAutoSave', 'true')
+      checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')    
+    
+    # Check if active layer uses a markdown scope.
+    markdownGrammar = ->
+      thisGrammar = editor.getGrammar().scopeName
+      if thisGrammar of markdownDocumentGrammars
+        console.log 'This is a markdown file.'
+      else
+        console.log 'Is not a markdown file'
+    
     # remarkable
-    md = new remarkable()
+    md = new Remarkable()
 
     # Test if Extension is markdown
     getExtension = (filename) ->
@@ -69,6 +88,7 @@ class MarkdownDocumentView
     # Async get markdown file
 
     mdContent = (callback) ->
+      markdownGrammar()
       fs.readFile filePath, 'utf8',  (err, data) ->
         if err
           throw err
@@ -76,11 +96,24 @@ class MarkdownDocumentView
         callback editorContent
         return
       return
+      
+    outlinedata = ''
+      
+    testOutlineData = ->
+      newOutlinedata = toc(editorContent).json
+      # console.log JSON.stringify(outlinedata)
+      # console.log JSON.stringify(newOutlinedata)
+      if JSON.stringify(outlinedata) != JSON.stringify(newOutlinedata)
+        console.log 'Outlinedata Changed!'
+        removeOutline()
+        createOutlineRefresh()
+        mdContent mdOutline
 
     # Parse markdown file, create toc, and convert to html.
     mdOutline = ->
+      # Begin correct outlinedata
       outlinedata = toc(editorContent).json
-      #console.log outlinedata
+      # console.log outlinedata
       outline = ''
       outlinedata.forEach (heading) ->
         if heading.lvl == 1
@@ -142,17 +175,23 @@ class MarkdownDocumentView
     handleClick = ->
       lineNumber = parseInt(@getAttribute('href'))
       position = new Point(lineNumber, 0)
-      editor.setCursorBufferPosition(position)
-      editor.moveToEndOfLine(lineNumber)
-      editor.scrollToBufferPosition(position, center: true)
+      editor?.setCursorBufferPosition(position)
+      editor?.moveToEndOfLine(lineNumber)
+      editor?.scrollToBufferPosition(position, center: true)
       atom.views.getView(atom.workspace).focus()
 
     # Autosaver, currently only runs if the outline sidebar is open!
-    #atom.config.set('MarkdownDocument.enableAutoSave', 'true')
-    checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')
+
     if checkAutoSave
       editor.onDidStopChanging () ->
         editor.save()
+        
+    editor.onDidSave =>
+      setTimeout (->
+        mdContent testOutlineData
+        return
+      ), 5000
+      return          
 
     disableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'false')
     enableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'true')

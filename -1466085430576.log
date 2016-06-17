@@ -1,0 +1,19 @@
+'navigate.ignore' could not set the default. Attempted default: "**/*.css"; Schema: {"title":"Ignore Pattern/Files(glob Pattern)","type":"array","default":"**/*.css"}
+'save-session.dataSaveFolder' could not set the default. Attempted default: undefined; Schema: {"type":"string","description":"The folder in which to save project states"}
+Window load time: 3786ms
+GET file:///usr/share/atom/resources/app.asar/static/font-awesome.min.css net::ERR_FILE_NOT_FOUND
+::shadow pseudo-element is deprecated. See https://www.chromestatus.com/features/6750456638341120 for more details.
+[Object, Object, Object, Object, Object, Object, Object, Object]
+Outlinedata Changed!
+Uncaught TypeError: Cannot read property '0' of undefined
+Outlinedata Changed!
+Uncaught TypeError: Cannot read property '0' of undefined
+Outlinedata Changed!
+Uncaught TypeError: Cannot read property '0' of undefined
+
+md.renderer.render	@	/home/kristle/github/markdown-document/node_modules/markdown-toc/index.js:79
+Remarkable.render	@	/home/kristle/github/markdown-document/node_modules/markdown-toc/node_modules/remarkable/lib/index.…:152
+toc	@	/home/kristle/github/markdown-document/node_modules/markdown-toc/index.js:27
+module.exports.testOutlineData	@	markdown-document-view.coffee:83
+(anonymous function)	@	markdown-document-view.coffee:76
+readFileAfterClose	@	fs.js:380
