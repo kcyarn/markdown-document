@@ -195,6 +195,9 @@ class MarkdownDocumentView
     enableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'true')
 
     atom.workspace.observeActivePaneItem (activePane) ->
+      #Trying to figure out if the exceptions have anything in common.
+      testPane = atom.workspace.getActivePaneItem()
+      console.log testPane
       if activePane == undefined
         removeOutline()
         disableAutoSave
