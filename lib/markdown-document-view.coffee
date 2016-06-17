@@ -66,10 +66,8 @@ class MarkdownDocumentView
       thisGrammar = editor?.getGrammar().scopeName
       if markdownDocumentGrammars.indexOf(thisGrammar) > -1
         extTest = true
-        console.log 'This is a markdown file.'
       else
         extTest = false
-        console.log 'This is not a markdown file.'
     
     # remarkable
     md = new Remarkable()
@@ -92,10 +90,10 @@ class MarkdownDocumentView
       
     testOutlineData = ->
       newOutlinedata = toc(editorContent).json
-      console.log JSON.stringify(outlinedata)
-      console.log JSON.stringify(newOutlinedata)
+      #console.log JSON.stringify(outlinedata)
+      #console.log JSON.stringify(newOutlinedata)
       if JSON.stringify(outlinedata) != JSON.stringify(newOutlinedata)
-        console.log 'Outlinedata Changed!'
+        #console.log 'Outlinedata Changed!'
         removeOutline()
         createOutlineRefresh()
         mdContent mdOutline
@@ -129,6 +127,81 @@ class MarkdownDocumentView
         outline += '(' + toc.linkify(heading.lines[0]) + ')'
         outline += '\n'
         return
+        
+      # Begin nested JSON
+      outlineJSON = []
+      nextHeadingOne = 0
+      nextHeadingTwo = 0
+      nextHeadingThree = 0
+      nextHeadingFour = 0
+      nextHeadingFive = 0
+      nextHeadingSix = 0
+      currentHeadingOne = 0
+      currentHeadingTwo = 0
+      currentHeadingThree = 0
+      currentHeadingFour = 0
+      currentHeadingFive = 0
+      currentHeadingSix = 0
+      previousHeadingLevel = 0
+      outlinedata.forEach (heading) ->
+        outlineItem =
+          title: heading.content
+          line: toc.linkify(heading.lines[0])
+          lvl: heading.lvl
+          index: heading.i
+          children: []
+        if heading.lvl == 1
+          # Level 1 always autoincrements in order.
+          currentHeadingOne = nextHeadingOne
+          outlineJSON.push outlineItem
+          nextHeadingOne = currentHeadingOne + 1
+          previousHeadingLevel = heading.lvl
+          
+        if heading.lvl == 2
+          console.log heading.lvl - previousHeadingLevel
+          if outlineJSON[currentHeadingOne].children.length < 1
+            currentHeadingTwo = 0
+          else
+            currentHeadingTwo = nextHeadingTwo
+          outlineJSON[currentHeadingOne].children.push outlineItem 
+          nextHeadingTwo = currentHeadingTwo + 1
+          previousHeadingLevel = heading.lvl              
+          
+        if heading.lvl == 3
+          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children.length < 1
+            currentHeadingThree = 0
+          else
+            currentHeadingThree = nextHeadingThree
+          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children.push outlineItem
+          nextHeadingThree = currentHeadingThree + 1
+          previousHeadingLevel = heading.lvl
+          
+        if heading.lvl == 4
+          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children.length < 1
+            currentHeadingFour = 0
+          else
+            currentHeadingFour = nextHeadingFour
+          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children.push outlineItem
+          nextHeadingFour = currentHeadingFour + 1
+
+        if heading.lvl == 5
+          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children.length < 1
+            currentHeadingFive = 0
+          else
+            currentHeadingFive = nextHeadingFive
+          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children.push outlineItem
+          nextHeadingFive = currentHeadingFive + 1
+          
+        if heading.lvl == 6
+          if outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children[currentHeadingFive].children.length < 1
+            currentHeadingSix = 0
+          else
+            currentHeadingSix = nextHeadingSix
+          outlineJSON[currentHeadingOne].children[currentHeadingTwo].children[currentHeadingThree].children[currentHeadingFour].children[currentHeadingFive].children.push outlineItem
+          nextHeadingSix = currentHeadingSix + 1
+
+        return
+      console.log JSON.stringify(outlineJSON)
       #console.log outline
       # Remove all child nodes from outliner.
       removeOutline()
@@ -194,8 +267,10 @@ class MarkdownDocumentView
       else
         title = activePane.getTitle()
         # Exceptions for settings, git plus, etc. Sure there's a better way to do this. Haven't found it yet.
-        #if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide' or title == 'Project Find Results' or title == 'untitled' or title.includes(' Preview')
-        if activePane?.getURI?()?.includes 'atom:' or title == 'untitled'
+        if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide' or title == 'Project Find Results' or title == 'untitled' or title.includes(' Preview')
+          removeOutline()
+          disableAutoSave
+        else if activePane?.getURI?()?.includes 'atom:'
           removeOutline()
           disableAutoSave
         else

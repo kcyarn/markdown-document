@@ -1,50 +1,133 @@
 [{
-    "content": "Markdown-Document Package",
-    "slug": "markdown-document-package",
+    "title": "First Header",
+    "line": 0,
     "lvl": 1,
-    "i": 0,
-    "seen": 0,
-    "lines": [1, 2]
+    "index": 0,
+    "children": [{
+        "title": "A Second Header",
+        "line": 2,
+        "lvl": 2,
+        "index": 1,
+        "children": [{
+            "title": "A.1 Third Header",
+            "line": 4,
+            "lvl": 3,
+            "index": 2,
+            "children": [{
+                "title": "A.1.1 Fourth Header",
+                "line": 6,
+                "lvl": 4,
+                "index": 3,
+                "children": [{
+                    "title": "A.1.1.1 Fifth Header",
+                    "line": 8,
+                    "lvl": 5,
+                    "index": 4,
+                    "children": []
+                }]
+            }]
+        }]
+    }, {
+        "title": "B Second Header",
+        "line": 12,
+        "lvl": 2,
+        "index": 6,
+        "children": [{
+            "title": "B.1 Third Header",
+            "line": 14,
+            "lvl": 3,
+            "index": 7,
+            "children": [{
+                "title": "B.1.1 Fourth Header",
+                "line": 16,
+                "lvl": 4,
+                "index": 8,
+                "children": [{
+                    "title": "B.1.1.1 Fifth Header",
+                    "line": 18,
+                    "lvl": 5,
+                    "index": 9,
+                    "children": []
+                }, {
+                    "title": "B.1.1.2 Fifth Header",
+                    "line": 20,
+                    "lvl": 5,
+                    "index": 10,
+                    "children": []
+                }, {
+                    "title": "B.1.1.3 Fifth Header",
+                    "line": 22,
+                    "lvl": 5,
+                    "index": 11,
+                    "children": []
+                }]
+            }]
+        }, {
+            "title": "B.2 Third Header",
+            "line": 30,
+            "lvl": 3,
+            "index": 15,
+            "children": [{
+                "title": "B.2.1 Fourth Header",
+                "line": 32,
+                "lvl": 4,
+                "index": 16,
+                "children": [{
+                    "title": "B.2.1.1 Fifth Header",
+                    "line": 34,
+                    "lvl": 5,
+                    "index": 17,
+                    "children": []
+                }, {
+                    "title": "B.2.1.2 Fifth Header",
+                    "line": 36,
+                    "lvl": 5,
+                    "index": 18,
+                    "children": []
+                }, {
+                    "title": "B.2.1.3 Fifth Header",
+                    "line": 38,
+                    "lvl": 5,
+                    "index": 19,
+                    "children": []
+                }]
+            }]
+        }]
+    }]
 }, {
-    "content": "Features",
-    "slug": "features",
-    "lvl": 2,
-    "i": 1,
-    "seen": 0,
-    "lines": [7, 8]
-}, {
-    "content": "Outline View (`ctrl-alt-o`)",
-    "slug": "outline-view-ctrl-alt-o",
-    "lvl": 3,
-    "i": 2,
-    "seen": 0,
-    "lines": [9, 10]
-}, {
-    "content": "Autosave",
-    "slug": "autosave",
-    "lvl": 3,
-    "i": 3,
-    "seen": 0,
-    "lines": [17, 18]
-}, {
-    "content": "Installation",
-    "slug": "installation",
-    "lvl": 2,
-    "i": 4,
-    "seen": 0,
-    "lines": [31, 32]
-}, {
-    "content": "Setup",
-    "slug": "setup",
-    "lvl": 2,
-    "i": 5,
-    "seen": 0,
-    "lines": [40, 41]
-}, {
-    "content": "Roadmap",
-    "slug": "roadmap",
-    "lvl": 2,
-    "i": 6,
-    "seen": 0,
-    "lines": [46, 47]
+    "title": "Another First Header",
+    "line": 46,
+    "lvl": 1,
+    "index": 23,
+    "children": [{
+        "title": "A Second Header",
+        "line": 48,
+        "lvl": 2,
+        "index": 24,
+        "children": [{
+            "title": "A Third Header",
+            "line": 50,
+            "lvl": 3,
+            "index": 25,
+            "children": [{
+                "title": "A Fourth Header",
+                "line": 52,
+                "lvl": 4,
+                "index": 26,
+                "children": [{
+                    "title": "A Fifth Header",
+                    "line": 54,
+                    "lvl": 5,
+                    "index": 27,
+                    "children": []
+                }]
+            }]
+        }]
+    }, {
+        "title": "B Second Header",
+        "line": 58,
+        "lvl": 2,
+        "index": 29,
+        "children": []
+    }]
 }]
