@@ -1,0 +1,50 @@
+[{
+    "content": "Markdown-Document Package",
+    "slug": "markdown-document-package",
+    "lvl": 1,
+    "i": 0,
+    "seen": 0,
+    "lines": [1, 2]
+}, {
+    "content": "Features",
+    "slug": "features",
+    "lvl": 2,
+    "i": 1,
+    "seen": 0,
+    "lines": [7, 8]
+}, {
+    "content": "Outline View (`ctrl-alt-o`)",
+    "slug": "outline-view-ctrl-alt-o",
+    "lvl": 3,
+    "i": 2,
+    "seen": 0,
+    "lines": [9, 10]
+}, {
+    "content": "Autosave",
+    "slug": "autosave",
+    "lvl": 3,
+    "i": 3,
+    "seen": 0,
+    "lines": [17, 18]
+}, {
+    "content": "Installation",
+    "slug": "installation",
+    "lvl": 2,
+    "i": 4,
+    "seen": 0,
+    "lines": [31, 32]
+}, {
+    "content": "Setup",
+    "slug": "setup",
+    "lvl": 2,
+    "i": 5,
+    "seen": 0,
+    "lines": [40, 41]
+}, {
+    "content": "Roadmap",
+    "slug": "roadmap",
+    "lvl": 2,
+    "i": 6,
+    "seen": 0,
+    "lines": [46, 47]
+}]

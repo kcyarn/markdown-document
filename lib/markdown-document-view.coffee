@@ -73,15 +73,8 @@ class MarkdownDocumentView
     
     # remarkable
     md = new Remarkable()
-
-    # Test if Extension is markdown
-    getExtension = (filename) ->
-      i = filename.lastIndexOf('.')
-      if i < 0 then '' else filename.substr(i)
-
-    #console.log filePathExt
-
-    #console.log fs.isMarkdownExtension(filePathExt)
+    
+    # Convert Html list to JSON
 
     # Async get markdown file
 
@@ -99,8 +92,8 @@ class MarkdownDocumentView
       
     testOutlineData = ->
       newOutlinedata = toc(editorContent).json
-      # console.log JSON.stringify(outlinedata)
-      # console.log JSON.stringify(newOutlinedata)
+      console.log JSON.stringify(outlinedata)
+      console.log JSON.stringify(newOutlinedata)
       if JSON.stringify(outlinedata) != JSON.stringify(newOutlinedata)
         console.log 'Outlinedata Changed!'
         removeOutline()
@@ -195,9 +188,6 @@ class MarkdownDocumentView
     enableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'true')
 
     atom.workspace.observeActivePaneItem (activePane) ->
-      #Trying to figure out if the exceptions have anything in common.
-      testPane = atom.workspace.getActivePaneItem()
-      console.log testPane
       if activePane == undefined
         removeOutline()
         disableAutoSave
@@ -205,13 +195,12 @@ class MarkdownDocumentView
         title = activePane.getTitle()
         # Exceptions for settings, git plus, etc. Sure there's a better way to do this. Haven't found it yet.
         #if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide' or title == 'Project Find Results' or title == 'untitled' or title.includes(' Preview')
-        if activePane?.getURI?()?.includes 'atom:'
+        if activePane?.getURI?()?.includes 'atom:' or title == 'untitled'
           removeOutline()
           disableAutoSave
         else
           editor = activePane
           filePath = activePane.getPath()
-          filePathExt = getExtension filePath
           markdownGrammar()
           outline = ''
           if extTest == true
