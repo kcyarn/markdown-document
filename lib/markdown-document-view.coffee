@@ -60,12 +60,15 @@ class MarkdownDocumentView
       atom.config.set('MarkdownDocument.enableAutoSave', 'true')
       checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')    
     
+    extTest = null
     # Check if active layer uses a markdown scope.
     markdownGrammar = ->
       thisGrammar = editor?.getGrammar().scopeName
       if markdownDocumentGrammars.indexOf(thisGrammar) > -1
+        extTest = true
         console.log 'This is a markdown file.'
       else
+        extTest = false
         console.log 'This is not a markdown file.'
     
     # remarkable
@@ -83,7 +86,7 @@ class MarkdownDocumentView
     # Async get markdown file
 
     mdContent = (callback) ->
-      markdownGrammar()
+      #markdownGrammar()
       fs.readFile filePath, 'utf8',  (err, data) ->
         if err
           throw err
@@ -205,7 +208,7 @@ class MarkdownDocumentView
           editor = activePane
           filePath = activePane.getPath()
           filePathExt = getExtension filePath
-          extTest = fs.isMarkdownExtension(filePathExt)
+          markdownGrammar()
           outline = ''
           if extTest == true
             mdContent mdOutline
