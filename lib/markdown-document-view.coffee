@@ -1,4 +1,4 @@
-{TextEditor, Point} = require('atom')
+{Point} = require('atom')
 toc = require('markdown-toc')
 fs = require('fs-plus')
 Remarkable = require('remarkable')
@@ -6,11 +6,6 @@ Remarkable = require('remarkable')
 module.exports =
 class MarkdownDocumentView
   constructor: (serializedState) ->
-
-# Commented out editor returns first line!
-    # editor = atom.workspace.getActiveTextEditor()
-  #  for linenumber in [editor.getLastBufferRow()..0]
-  #    linetext = editor.lineTextForBufferRow(linenumber)
 
     # Create root element
     @element = document.createElement('div')
@@ -207,6 +202,7 @@ class MarkdownDocumentView
           removeOutline()
           disableAutoSave
         else
+          editor = activePane
           filePath = activePane.getPath()
           filePathExt = getExtension filePath
           extTest = fs.isMarkdownExtension(filePathExt)
