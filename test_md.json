@@ -1,0 +1,351 @@
+[{
+    "title": "First Header",
+    "line": 0,
+    "lvl": 1,
+    "index": 0,
+    "headingCaution": false,
+    "children": [{
+        "title": "A Second Header",
+        "line": 2,
+        "lvl": 2,
+        "index": 1,
+        "headingCaution": false,
+        "children": [{
+            "title": "A.1 Third Header",
+            "line": 4,
+            "lvl": 3,
+            "index": 2,
+            "headingCaution": false,
+            "children": [{
+                "title": "A.1.1 Fourth Header",
+                "line": 6,
+                "lvl": 4,
+                "index": 3,
+                "headingCaution": false,
+                "children": [{
+                    "title": "A.1.1.1 Fifth Header",
+                    "line": 8,
+                    "lvl": 5,
+                    "index": 4,
+                    "headingCaution": false,
+                    "children": [{
+                        "title": "A.1.1.1.1 Sixth Header",
+                        "line": 10,
+                        "lvl": 6,
+                        "index": 5,
+                        "headingCaution": false,
+                        "children": []
+                    }]
+                }]
+            }]
+        }]
+    }, {
+        "title": "B Second Header",
+        "line": 12,
+        "lvl": 2,
+        "index": 6,
+        "headingCaution": false,
+        "children": [{
+            "title": "B.1 Third Header",
+            "line": 14,
+            "lvl": 3,
+            "index": 7,
+            "headingCaution": false,
+            "children": [{
+                "title": "B.1.1 Fourth Header",
+                "line": 16,
+                "lvl": 4,
+                "index": 8,
+                "headingCaution": false,
+                "children": [{
+                    "title": "B.1.1.1 Fifth Header",
+                    "line": 18,
+                    "lvl": 5,
+                    "index": 9,
+                    "headingCaution": false,
+                    "children": []
+                }, {
+                    "title": "B.1.1.2 Fifth Header",
+                    "line": 20,
+                    "lvl": 5,
+                    "index": 10,
+                    "headingCaution": false,
+                    "children": []
+                }, {
+                    "title": "B.1.1.3 Fifth Header",
+                    "line": 22,
+                    "lvl": 5,
+                    "index": 11,
+                    "headingCaution": false,
+                    "children": [{
+                        "title": "B.1.1.3.1 Sixth Header",
+                        "line": 24,
+                        "lvl": 6,
+                        "index": 12,
+                        "headingCaution": false,
+                        "children": []
+                    }, {
+                        "title": "B.1.1.1.3.2 Sixth Header",
+                        "line": 26,
+                        "lvl": 6,
+                        "index": 13,
+                        "headingCaution": false,
+                        "children": []
+                    }, {
+                        "title": "B.1.1.1.3.3 Sixth Header",
+                        "line": 28,
+                        "lvl": 6,
+                        "index": 14,
+                        "headingCaution": false,
+                        "children": []
+                    }]
+                }]
+            }]
+        }, {
+            "title": "B.2 Third Header",
+            "line": 30,
+            "lvl": 3,
+            "index": 15,
+            "headingCaution": false,
+            "children": [{
+                "title": "B.2.1 Fourth Header",
+                "line": 32,
+                "lvl": 4,
+                "index": 16,
+                "headingCaution": false,
+                "children": [{
+                    "title": "B.2.1.1 Fifth Header",
+                    "line": 34,
+                    "lvl": 5,
+                    "index": 17,
+                    "headingCaution": false,
+                    "children": []
+                }, {
+                    "title": "B.2.1.2 Fifth Header",
+                    "line": 36,
+                    "lvl": 5,
+                    "index": 18,
+                    "headingCaution": false,
+                    "children": []
+                }, {
+                    "title": "B.2.1.3 Fifth Header",
+                    "line": 38,
+                    "lvl": 5,
+                    "index": 19,
+                    "headingCaution": false,
+                    "children": [{
+                        "title": "B.2.1.3.1 Sixth Header",
+                        "line": 40,
+                        "lvl": 6,
+                        "index": 20,
+                        "headingCaution": false,
+                        "children": []
+                    }, {
+                        "title": "B.2.1.3.2 Sixth Header",
+                        "line": 42,
+                        "lvl": 6,
+                        "index": 21,
+                        "headingCaution": false,
+                        "children": []
+                    }, {
+                        "title": "B.2.1.3.3 Sixth Header",
+                        "line": 44,
+                        "lvl": 6,
+                        "index": 22,
+                        "headingCaution": false,
+                        "children": []
+                    }]
+                }]
+            }]
+        }]
+    }]
+}, {
+    "title": "Another First Header",
+    "line": 46,
+    "lvl": 1,
+    "index": 23,
+    "headingCaution": false,
+    "children": [{
+        "title": "A Second Header",
+        "line": 48,
+        "lvl": 2,
+        "index": 24,
+        "headingCaution": false,
+        "children": [{
+            "title": "A Third Header",
+            "line": 50,
+            "lvl": 3,
+            "index": 25,
+            "headingCaution": false,
+            "children": [{
+                "title": "A Fourth Header",
+                "line": 52,
+                "lvl": 4,
+                "index": 26,
+                "headingCaution": false,
+                "children": [{
+                    "title": "A Fifth Header",
+                    "line": 54,
+                    "lvl": 5,
+                    "index": 27,
+                    "headingCaution": false,
+                    "children": [{
+                        "title": "A Sixth Header",
+                        "line": 56,
+                        "lvl": 6,
+                        "index": 28,
+                        "headingCaution": false,
+                        "children": []
+                    }]
+                }]
+            }]
+        }]
+    }, {
+        "title": "B Second Header",
+        "line": 58,
+        "lvl": 2,
+        "index": 29,
+        "headingCaution": false,
+        "children": []
+    }]
+}, {
+    "title": "Heading Two Missing",
+    "line": 60,
+    "lvl": 1,
+    "index": 30,
+    "headingCaution": false,
+    "children": [{
+        "title": "Heading Two missing",
+        "line": 62,
+        "lvl": 3,
+        "index": 31,
+        "headingCaution": true,
+        "children": []
+    }]
+}, {
+    "title": "Heading 2 3 Missing",
+    "line": 64,
+    "lvl": 1,
+    "index": 32,
+    "headingCaution": false,
+    "children": [{
+        "title": "Heading 2 3 missing",
+        "line": 66,
+        "lvl": 4,
+        "index": 33,
+        "headingCaution": true,
+        "children": []
+    }]
+}, {
+    "title": "Heading 2 3 4 Missing",
+    "line": 68,
+    "lvl": 1,
+    "index": 34,
+    "headingCaution": false,
+    "children": [{
+        "title": "Heading 2 3 4 Missing",
+        "line": 70,
+        "lvl": 5,
+        "index": 35,
+        "headingCaution": true,
+        "children": []
+    }]
+}, {
+    "title": "Heading 2 3 4 5 Missing",
+    "line": 72,
+    "lvl": 1,
+    "index": 36,
+    "headingCaution": false,
+    "children": [{
+        "title": "Heading 2 3 4 5 Missing",
+        "line": 74,
+        "lvl": 6,
+        "index": 37,
+        "headingCaution": true,
+        "children": []
+    }, {
+        "title": "Heading 3 Missing",
+        "line": 76,
+        "lvl": 2,
+        "index": 38,
+        "headingCaution": false,
+        "children": [{
+            "title": "Heading 3 Missing",
+            "line": 78,
+            "lvl": 4,
+            "index": 39,
+            "headingCaution": true,
+            "children": []
+        }]
+    }, {
+        "title": "Heading 3 4 Missing",
+        "line": 80,
+        "lvl": 2,
+        "index": 40,
+        "headingCaution": false,
+        "children": [{
+            "title": "Heading 3 4 missing",
+            "line": 82,
+            "lvl": 5,
+            "index": 41,
+            "headingCaution": true,
+            "children": []
+        }]
+    }, {
+        "title": "Heading Heading 3 4 5 Missing",
+        "line": 84,
+        "lvl": 2,
+        "index": 42,
+        "headingCaution": false,
+        "children": [{
+            "title": "Heading 3 4 5 Missing",
+            "line": 86,
+            "lvl": 6,
+            "index": 43,
+            "headingCaution": true,
+            "children": []
+        }, {
+            "title": "Heading 4 Missing",
+            "line": 88,
+            "lvl": 3,
+            "index": 44,
+            "headingCaution": false,
+            "children": [{
+                "title": "Heading 4 Missing",
+                "line": 90,
+                "lvl": 5,
+                "index": 45,
+                "headingCaution": true,
+                "children": []
+            }]
+        }, {
+            "title": "heading 4 5 Missing",
+            "line": 92,
+            "lvl": 3,
+            "index": 46,
+            "headingCaution": false,
+            "children": [{
+                "title": "Heading 3 4 missing",
+                "line": 94,
+                "lvl": 6,
+                "index": 47,
+                "headingCaution": true,
+                "children": []
+            }, {
+                "title": "Heading 5 missing",
+                "line": 96,
+                "lvl": 4,
+                "index": 48,
+                "headingCaution": false,
+                "children": [{
+                    "title": "Heading 5 missing",
+                    "line": 98,
+                    "lvl": 6,
+                    "index": 49,
+                    "headingCaution": true,
+                    "children": []
+                }]
+            }]
+        }]
+    }]
+}]

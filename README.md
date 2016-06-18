@@ -15,6 +15,8 @@ Adds tools to make working with long form markdown documents in [Atom](https://a
 
 When adding new headers to the document, the Outline View does not automatically refresh. You must manually refresh the view.
 
+*Note: Although markdown does not require sequential headers, the outline generator needs at least one first level header. After that, non-sequential headers will be moved up to the next closest level.*
+
 ### Autosave
 
 Continue writing content here. See if it still fires.
