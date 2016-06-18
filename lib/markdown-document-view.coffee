@@ -2,32 +2,46 @@
 toc = require('markdown-toc')
 fs = require('fs-plus')
 Remarkable = require('remarkable')
+vue = require('vue')
 
 module.exports =
 class MarkdownDocumentView
   constructor: (serializedState) ->
+  
 
     # Create root element
     @element = document.createElement('div')
     @element.classList.add('markdown-document')
     @element.classList.add('panel')
     @element.id = 'markdown-outline'
+    
+    test = document.createElement('div')
+    test.innerHTML = '<p>testing</p>'
+    @element.appendChild(test)
+    
+    # Headers variable
+    headers = []
 
     # Create Refresh Button
-    createOutlineRefresh = ->
-      refreshHeading = document.createElement('div')
-      refreshHeading.classList.add('panel-heading')
-      refreshBtn = document.createElement('button')
-      refreshBtn.classList.add('btn')
-      refreshBtn.addEventListener 'click', refreshClick
-      refreshIcon = document.createElement('span')
-      refreshIcon.textContent = 'Refresh'
-      refreshIcon.classList.add('icon')
-      refreshIcon.classList.add('icon-sync')
-      refreshBtn.appendChild(refreshIcon)
-      refreshHeading.appendChild(refreshBtn)
-      document.getElementById('markdown-outline').appendChild(refreshHeading)
-      return
+
+    refreshHeading = document.createElement('div')
+    refreshHeading.classList.add('panel-heading')
+    refreshBtn = document.createElement('button')
+    refreshBtn.classList.add('btn')
+    refreshBtn.addEventListener 'click', refreshClick
+    refreshIcon = document.createElement('span')
+    refreshIcon.textContent = 'Refresh'
+    refreshIcon.classList.add('icon')
+    refreshIcon.classList.add('icon-sync')
+    refreshBtn.appendChild(refreshIcon)
+    refreshHeading.appendChild(refreshBtn)
+    @element.appendChild(refreshHeading)
+
+    vueElement = document.createElement('div')      
+    vueElement.innerHTML = '<ul id="toc"> <li v-for="firstheader in headers"> <input v-if="firstheader.children.length > 0" type="checkbox" id="{{firstheader.line}}"> <label v-if="firstheader.children.length > 0" for="{{firstheader.line}}"></label> <a class="caution{{firstheader.headingCaution}}heading{{firstheader.lvl}}" href="{{firstheader.line}}" v-on:click="testClick(firstheader.line)">{{firstheader.title}}</a> <ul v-if="firstheader.children.length > 0"> <li v-for="secondheader in firstheader.children"> <input v-if="secondheader.children.length > 0" type="checkbox" id="{{secondheader.line}}"> <label v-if="secondheader.children.length > 0" for="{{secondheader.line}}"></label> <a class="caution{{secondheader.headingCaution}}heading{{secondheader.lvl}}" href="{{secondheader.line}}" v-on:click="testClick(secondheader.line)">{{secondheader.title}}</a> <ul v-if="secondheader.children.length > 0"> <li v-for="thirdheader in secondheader.children"> <input v-if="thirdheader.children.length > 0" type="checkbox" id="{{thirdheader.line}}"> <label v-if="thirdheader.children.length > 0" for="{{thirdheader.line}}"></label> <a class="caution{{thirdheader.headingCaution}}heading{{thirdheader.lvl}}" href="{{thirdheader.line}}" v-on:click="testClick(thirdheader.line)">{{thirdheader.title}}</a> <ul v-if="thirdheader.children.length > 0"> <li v-for="fourthheader in thirdheader.children"> <input v-if="fourthheader.children.length > 0" type="checkbox" id="{{fourthheader.line}}"> <label v-if="fourthheader.children.length > 0" for="{{fourthheader.line}}"></label> <a class="caution{{fourthheader.headingCaution}}heading{{fourthheader.lvl}}" href="{{fourthheader.line}}" v-on:click="testClick(fourthheader.line)">{{fourthheader.title}}</a> <ul v-if="fourthheader.children.length > 0"> <li v-for="fifthheader in fourthheader.children"> <input v-if="fifthheader.children.length > 0" type="checkbox" id="{{fifthheader.line}}"> <label v-if="fifthheader.children.length > 0" for="{{fifthheader.line}}"></label> <a class="caution{{fifthheader.headingCaution}}heading{{fifthheader.lvl}}" href="{{fifthheader.line}}" v-on:click="testClick(fifthheader.line)">{{fifthheader.title}}</a> <ul v-if="fifthheader.children.length > 0"> <li v-for="sixthheader in fifthheader.children"> <a class="caution{{sixthheader.headingCaution}}heading{{sixthheader.lvl}}" href="{{sixthheader.line}}" v-on:click="testClick(sixthheader.line)">{{sixthheader.title}}</a> </li></ul> </li></ul> </li></ul> </li></ul> </li></ul> </li></ul>'
+    vueElement.classList.add('panel-body')
+    vueElement.classList.add('padded')
+    @element.appendChild(vueElement)
 
     # Create outliner element
     outliner = document.createElement('div')
@@ -93,9 +107,9 @@ class MarkdownDocumentView
       #console.log JSON.stringify(outlinedata)
       #console.log JSON.stringify(newOutlinedata)
       if JSON.stringify(outlinedata) != JSON.stringify(newOutlinedata)
-        #console.log 'Outlinedata Changed!'
-        removeOutline()
-        createOutlineRefresh()
+        console.log 'Outlinedata Changed!'
+        #removeOutline()
+        #createOutlineRefresh()
         mdContent mdOutline
 
     # Parse markdown file, create toc, and convert to html.
@@ -258,43 +272,30 @@ class MarkdownDocumentView
             outlineItem = outlineItemCaution
             headingTwo()
         return
-      console.log JSON.stringify(outlineJSON)
+      headers = outlineJSON
+      # vue here shows!
+      new vue(
+        el: '#toc'
+        data: 'headers': headers
+        methods: testClick: (line) ->
+          goLineClick(line)
+          return
+        )
       #console.log outline
       # Remove all child nodes from outliner.
-      removeOutline()
-      createOutlineRefresh()
-      render = md.render(outline)
-      outliner.innerHTML = render
-      mdLink = outliner.getElementsByTagName('a')
-      a = 0
-      while a < mdLink.length
-        mdLink[a].addEventListener 'click', handleClick
-        a++
-      mdList = outliner.getElementsByTagName('ul')
-      i = 1
-      while i < mdList.length
-        label = document.createElement('label')
-        label.setAttribute('for', i)
-        checkbox = document.createElement('input')
-        checkbox.type = 'checkbox'
-        checkbox.id = i
-        mdList[i].parentNode.insertBefore(label, mdList[i].parentNode.children[0])
-        mdList[i].parentNode.insertBefore(checkbox, mdList[i].parentNode.children[0])
-        i++
+      #removeOutline()
+      #createOutlineRefresh()
 
-      outliner.classList.add('panel-body')
-      outliner.classList.add('padded')
-      document.getElementById('markdown-outline').appendChild(outliner)
       return
 
     refreshClick =
     @refreshClick = ->
-      removeOutline()
-      createOutlineRefresh()
+      #removeOutline()
+      #createOutlineRefresh()
       mdContent mdOutline
 
-    handleClick = ->
-      lineNumber = parseInt(@getAttribute('href'))
+    goLineClick = (ln) ->
+      lineNumber = parseInt(ln)      
       position = new Point(lineNumber, 0)
       editor?.setCursorBufferPosition(position)
       editor?.moveToEndOfLine(lineNumber)
