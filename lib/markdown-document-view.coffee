@@ -2,11 +2,16 @@
 toc = require('markdown-toc')
 fs = require('fs-plus')
 Remarkable = require('remarkable')
+require('angular')
 
 module.exports =
 class MarkdownDocumentView
   constructor: (serializedState) ->
-
+    outlineJSON = []
+    app = angular.module('myApp', [])
+    app.controller 'myCtrl', ($scope) ->
+      $scope.test = outlineJSON
+      return
     # Create root element
     @element = document.createElement('div')
     @element.classList.add('markdown-document')
@@ -14,24 +19,29 @@ class MarkdownDocumentView
     @element.id = 'markdown-outline'
 
     # Create Refresh Button
-    createOutlineRefresh = ->
-      refreshHeading = document.createElement('div')
-      refreshHeading.classList.add('panel-heading')
-      refreshBtn = document.createElement('button')
-      refreshBtn.classList.add('btn')
-      refreshBtn.addEventListener 'click', refreshClick
-      refreshIcon = document.createElement('span')
-      refreshIcon.textContent = 'Refresh'
-      refreshIcon.classList.add('icon')
-      refreshIcon.classList.add('icon-sync')
-      refreshBtn.appendChild(refreshIcon)
-      refreshHeading.appendChild(refreshBtn)
-      document.getElementById('markdown-outline').appendChild(refreshHeading)
-      return
+    refreshHeading = document.createElement('div')
+    refreshHeading.classList.add('panel-heading')
+    refreshBtn = document.createElement('button')
+    refreshBtn.classList.add('btn')
+    refreshBtn.addEventListener 'click', refreshClick
+    refreshIcon = document.createElement('span')
+    refreshIcon.textContent = 'Refresh'
+    refreshIcon.classList.add('icon')
+    refreshIcon.classList.add('icon-sync')
+    refreshBtn.appendChild(refreshIcon)
+    refreshHeading.appendChild(refreshBtn)
+    @element.appendChild(refreshHeading)
+
 
     # Create outliner element
     outliner = document.createElement('div')
-
+    outliner.classList.add('panel-body')
+    outliner.classList.add('padded')
+    outliner.setAttribute('ng-app', 'myApp')
+    outliner.setAttribute('ng-controller', 'myCtrl')
+    outliner.innerHTML = '<p>{{test}}</p>'
+    @element.appendChild(outliner)
+    
     # Remove all markdown-outline children function
     removeOutline = ->
       markdownOutline = document.getElementById('markdown-outline')
@@ -94,8 +104,8 @@ class MarkdownDocumentView
       #console.log JSON.stringify(newOutlinedata)
       if JSON.stringify(outlinedata) != JSON.stringify(newOutlinedata)
         #console.log 'Outlinedata Changed!'
-        removeOutline()
-        createOutlineRefresh()
+        #removeOutline()
+        #createOutlineRefresh()
         mdContent mdOutline
 
     # Parse markdown file, create toc, and convert to html.
@@ -129,7 +139,6 @@ class MarkdownDocumentView
         return
         
       # Begin nested JSON
-      outlineJSON = []
       nextHeadingOne = 0
       nextHeadingTwo = 0
       nextHeadingThree = 0
@@ -258,39 +267,23 @@ class MarkdownDocumentView
             outlineItem = outlineItemCaution
             headingTwo()
         return
-      console.log JSON.stringify(outlineJSON)
+      appElement = document.querySelector('[ng-app=myApp]')
+      $scope = angular.element(appElement).scope()
+      $scope.$apply ->
+        $scope.test = outlineJSON
+        return
+      #console.log JSON.stringify(outlineJSON)
       #console.log outline
       # Remove all child nodes from outliner.
-      removeOutline()
-      createOutlineRefresh()
+      #removeOutline()
+      #createOutlineRefresh()
       render = md.render(outline)
-      outliner.innerHTML = render
-      mdLink = outliner.getElementsByTagName('a')
-      a = 0
-      while a < mdLink.length
-        mdLink[a].addEventListener 'click', handleClick
-        a++
-      mdList = outliner.getElementsByTagName('ul')
-      i = 1
-      while i < mdList.length
-        label = document.createElement('label')
-        label.setAttribute('for', i)
-        checkbox = document.createElement('input')
-        checkbox.type = 'checkbox'
-        checkbox.id = i
-        mdList[i].parentNode.insertBefore(label, mdList[i].parentNode.children[0])
-        mdList[i].parentNode.insertBefore(checkbox, mdList[i].parentNode.children[0])
-        i++
-
-      outliner.classList.add('panel-body')
-      outliner.classList.add('padded')
-      document.getElementById('markdown-outline').appendChild(outliner)
       return
 
     refreshClick =
     @refreshClick = ->
-      removeOutline()
-      createOutlineRefresh()
+      #removeOutline()
+      #createOutlineRefresh()
       mdContent mdOutline
 
     handleClick = ->
@@ -342,6 +335,7 @@ class MarkdownDocumentView
           else
             removeOutline()
             disableAutoSave
+
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
