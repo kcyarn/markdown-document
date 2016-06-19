@@ -1,0 +1,28 @@
+<ul>
+    <li ng-repeat="headerOne in headers">{{headerOne.title}}
+    <ul>
+      <li ng-repeat="headerTwo in headerOne.children">
+        {{headerTwo.title}}
+        <ul>
+          <li ng-repeat="headerThree in headerTwo.children">
+            {{headerThree.title}}
+            <ul>
+              <li ng-repeat="headerFour in headerThree.children">
+                {{headerFour.title}}
+                <ul>
+                  <li ng-repeat="headerFive in headerFour.children">
+                    {{headerFive.title}}
+                    <ul>
+                      <li ng-repeat="headerSix in headerFive.children">
+                        {{headerSix.title}}
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul></li>
+</ul>

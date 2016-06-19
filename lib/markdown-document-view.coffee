@@ -10,7 +10,7 @@ class MarkdownDocumentView
     outlineJSON = []
     app = angular.module('myApp', [])
     app.controller 'myCtrl', ($scope) ->
-      $scope.test = outlineJSON
+      $scope.headers = outlineJSON
       return
     # Create root element
     @element = document.createElement('div')
@@ -39,7 +39,7 @@ class MarkdownDocumentView
     outliner.classList.add('padded')
     outliner.setAttribute('ng-app', 'myApp')
     outliner.setAttribute('ng-controller', 'myCtrl')
-    outliner.innerHTML = '<p>{{test}}</p>'
+    outliner.innerHTML = '<ul> <li ng-repeat="headerOne in headers">{{headerOne.title}}<ul> <li ng-repeat="headerTwo in headerOne.children">{{headerTwo.title}}<ul> <li ng-repeat="headerThree in headerTwo.children">{{headerThree.title}}<ul> <li ng-repeat="headerFour in headerThree.children">{{headerFour.title}}<ul> <li ng-repeat="headerFive in headerFour.children">{{headerFive.title}}<ul> <li ng-repeat="headerSix in headerFive.children">{{headerSix.title}}</li></ul> </li></ul> </li></ul> </li></ul> </li></ul></li></ul><p>{{headers}}</p>'
     @element.appendChild(outliner)
     
     # Remove all markdown-outline children function
@@ -137,8 +137,8 @@ class MarkdownDocumentView
         outline += '(' + toc.linkify(heading.lines[0]) + ')'
         outline += '\n'
         return
-        
       # Begin nested JSON
+      outlineJSON = []
       nextHeadingOne = 0
       nextHeadingTwo = 0
       nextHeadingThree = 0
@@ -270,7 +270,7 @@ class MarkdownDocumentView
       appElement = document.querySelector('[ng-app=myApp]')
       $scope = angular.element(appElement).scope()
       $scope.$apply ->
-        $scope.test = outlineJSON
+        $scope.headers = outlineJSON
         return
       #console.log JSON.stringify(outlineJSON)
       #console.log outline
@@ -302,7 +302,7 @@ class MarkdownDocumentView
         
     editor.onDidSave =>
       setTimeout (->
-        mdContent testOutlineData
+        mdContent mdOutline
         return
       ), 5000
       return          
