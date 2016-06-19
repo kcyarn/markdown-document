@@ -46,7 +46,7 @@
 
 # Another First Header
 
-## testing
+# Testing
 
 ## A Second Header
 
