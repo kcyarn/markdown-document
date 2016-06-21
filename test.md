@@ -102,4 +102,7 @@
 
 ## A second
 
+### A third
+
+Occassional errors are caused when markdown-toc tries to read a file that's being written to. Needs a timeout!
 

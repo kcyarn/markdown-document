@@ -1,20 +1,33 @@
 <ul>
-    <li ng-repeat="headerOne in headers">{{headerOne.title}}
+    <li ng-repeat="headerOne in headers">
+      <input ng-if="headerOne.children.length > 0" type="checkbox" id="{{headerOne.line}}">
+      <label ng-if="headerOne.children.length > 0" for="{{headerOne.line}}"></label>
+      <a ng-class="{\'text-warning\': headerOne.headingCaution}">{{headerOne.title}}</a>
     <ul>
       <li ng-repeat="headerTwo in headerOne.children">
-        {{headerTwo.title}}
+        <input ng-if="headerTwo.children.length > 0" type="checkbox" id="{{headerTwo.line}}">
+        <label ng-if="headerTwo.children.length > 0" for="{{headerTwo.line}}"></label>
+        <a ng-class="{\'text-warning\': headerTwo.headingCaution}">{{headerTwo.title}}</a>
         <ul>
           <li ng-repeat="headerThree in headerTwo.children">
-            {{headerThree.title}}
+            <input ng-if="headerThree.children.length > 0" type="checkbox" id="{{headerThree.line}}">
+            <label ng-if="headerThree.children.length > 0" for="{{headerThree.line}}"></label>
+            <a ng-class="{\'text-warning\': headerThree.headingCaution}">{{headerThree.title}}</a>
             <ul>
               <li ng-repeat="headerFour in headerThree.children">
-                {{headerFour.title}}
+                <input ng-if="headerFour.children.length > 0" type="checkbox" id="{{headerFour.line}}">
+                <label ng-if="headerFour.children.length > 0" for="{{headerFour.line}}"></label>
+                <a ng-class="{\'text-warning\': headerFour.headingCaution}">{{headerFour.title}}</a>
                 <ul>
                   <li ng-repeat="headerFive in headerFour.children">
-                    {{headerFive.title}}
+                    <input ng-if="headerFive.children.length > 0" type="checkbox" id="{{headerFive.line}}">
+                    <label ng-if="headerFive.children.length > 0" for="{{headerFive.line}}"></label>
+                    <a ng-class="{\'text-warning\': headerFive.headingCaution}">{{headerFive.title}}</a>
                     <ul>
                       <li ng-repeat="headerSix in headerFive.children">
-                        {{headerSix.title}}
+                        <input ng-if="headerSix.children.length > 0" type="checkbox" id="{{headerSix.line}}">
+                        <label ng-if="headerSix.children.length > 0" for="{{headerSix.line}}"></label>
+                        <a ng-class="{\'text-warning\': headerSix.headingCaution}">{{headerSix.title}}</a>
                       </li>
                     </ul>
                   </li>

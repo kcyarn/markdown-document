@@ -11,6 +11,12 @@ class MarkdownDocumentView
     app = angular.module('myApp', [])
     app.controller 'myCtrl', ($scope) ->
       $scope.headers = outlineJSON
+      $scope.handleClick = (lineNumber) ->
+        position = new Point(lineNumber, 0)
+        editor?.setCursorBufferPosition(position)
+        editor?.moveToEndOfLine(lineNumber)
+        editor?.scrollToBufferPosition(position, center: true)
+        atom.views.getView(atom.workspace).focus()
       return
     # Create root element
     @element = document.createElement('div')
@@ -39,7 +45,7 @@ class MarkdownDocumentView
     outliner.classList.add('padded')
     outliner.setAttribute('ng-app', 'myApp')
     outliner.setAttribute('ng-controller', 'myCtrl')
-    outliner.innerHTML = '<ul> <li ng-repeat="headerOne in headers">{{headerOne.title}}<ul> <li ng-repeat="headerTwo in headerOne.children">{{headerTwo.title}}<ul> <li ng-repeat="headerThree in headerTwo.children">{{headerThree.title}}<ul> <li ng-repeat="headerFour in headerThree.children">{{headerFour.title}}<ul> <li ng-repeat="headerFive in headerFour.children">{{headerFive.title}}<ul> <li ng-repeat="headerSix in headerFive.children">{{headerSix.title}}</li></ul> </li></ul> </li></ul> </li></ul> </li></ul></li></ul><p>{{headers}}</p>'
+    outliner.innerHTML = '<ul> <li ng-repeat="headerOne in headers"> <input ng-if="headerOne.children.length > 0" type="checkbox" id="{{headerOne.line}}"> <label ng-if="headerOne.children.length > 0" for="{{headerOne.line}}"></label> <a ng-class="{\'text-warning\': headerOne.headingCaution}" ng-click="handleClick(headerOne.line)">{{headerOne.title}}</a> <ul> <li ng-repeat="headerTwo in headerOne.children"> <input ng-if="headerTwo.children.length > 0" type="checkbox" id="{{headerTwo.line}}"> <label ng-if="headerTwo.children.length > 0" for="{{headerTwo.line}}"></label> <a ng-class="{\'text-warning\': headerTwo.headingCaution}"  ng-click="handleClick(headerTwo.line)">{{headerTwo.title}}</a> <ul> <li ng-repeat="headerThree in headerTwo.children"> <input ng-if="headerThree.children.length > 0" type="checkbox" id="{{headerThree.line}}"> <label ng-if="headerThree.children.length > 0" for="{{headerThree.line}}"></label> <a ng-class="{\'text-warning\': headerThree.headingCaution}"  ng-click="handleClick(headerThree.line)">{{headerThree.title}}</a> <ul> <li ng-repeat="headerFour in headerThree.children"> <input ng-if="headerFour.children.length > 0" type="checkbox" id="{{headerFour.line}}"> <label ng-if="headerFour.children.length > 0" for="{{headerFour.line}}"></label> <a ng-class="{\'text-warning\': headerFour.headingCaution}"  ng-click="handleClick(headerFour.line)">{{headerFour.title}}</a> <ul> <li ng-repeat="headerFive in headerFour.children"> <input ng-if="headerFive.children.length > 0" type="checkbox" id="{{headerFive.line}}"> <label ng-if="headerFive.children.length > 0" for="{{headerFive.line}}"></label> <a ng-class="{\'text-warning\': headerFive.headingCaution}"  ng-click="handleClick(headerFive.line)">{{headerFive.title}}</a> <ul> <li ng-repeat="headerSix in headerFive.children"> <input ng-if="headerSix.children.length > 0" type="checkbox" id="{{headerSix.line}}"> <label ng-if="headerSix.children.length > 0" for="{{headerSix.line}}"></label> <a ng-class="{\'text-warning\': headerSix.headingCaution}"  ng-click="handleClick(headerSix.line)">{{headerSix.title}}</a> </li></ul> </li></ul> </li></ul> </li></ul> </li></ul></li></ul>'
     @element.appendChild(outliner)
     
     # Remove all markdown-outline children function
@@ -112,31 +118,6 @@ class MarkdownDocumentView
     mdOutline = ->
       # Begin correct outlinedata
       outlinedata = toc(editorContent).json
-      # console.log outlinedata
-      outline = ''
-      outlinedata.forEach (heading) ->
-        if heading.lvl == 1
-          outline += '- '
-          pounds = '# '
-        if heading.lvl == 2
-          outline += '\t* '
-          pounds = '## '
-        if heading.lvl == 3
-          outline += '\t\t+ '
-          pounds = '### '
-        if heading.lvl == 4
-          outline += '\t\t\t- '
-          pounds = '#### '
-        if heading.lvl == 5
-          outline += '\t\t\t\t* '
-          pounds = '##### '
-        if heading.lvl == 6
-          outline += '\t\t\t\t\t+ '
-          pounds = '###### '
-        outline += '[' + pounds + toc.linkify(heading.content) + ']'
-        outline += '(' + toc.linkify(heading.lines[0]) + ')'
-        outline += '\n'
-        return
       # Begin nested JSON
       outlineJSON = []
       nextHeadingOne = 0
@@ -272,12 +253,6 @@ class MarkdownDocumentView
       $scope.$apply ->
         $scope.headers = outlineJSON
         return
-      #console.log JSON.stringify(outlineJSON)
-      #console.log outline
-      # Remove all child nodes from outliner.
-      #removeOutline()
-      #createOutlineRefresh()
-      render = md.render(outline)
       return
 
     refreshClick =
@@ -285,14 +260,6 @@ class MarkdownDocumentView
       #removeOutline()
       #createOutlineRefresh()
       mdContent mdOutline
-
-    handleClick = ->
-      lineNumber = parseInt(@getAttribute('href'))
-      position = new Point(lineNumber, 0)
-      editor?.setCursorBufferPosition(position)
-      editor?.moveToEndOfLine(lineNumber)
-      editor?.scrollToBufferPosition(position, center: true)
-      atom.views.getView(atom.workspace).focus()
 
     # Autosaver, currently only runs if the outline sidebar is open!
 
@@ -312,7 +279,7 @@ class MarkdownDocumentView
 
     atom.workspace.observeActivePaneItem (activePane) ->
       if activePane == undefined
-        removeOutline()
+        #removeOutline()
         disableAutoSave
       else
         title = activePane.getTitle()
