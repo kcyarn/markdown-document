@@ -8,8 +8,8 @@ module.exports =
 class MarkdownDocumentView
   constructor: (serializedState) ->
     outlineJSON = []
-    app = angular.module('myApp', [])
-    app.controller 'myCtrl', ($scope) ->
+    app = angular.module('markdownDocumentApp', [])
+    app.controller 'outlineCtrl', ($scope) ->
       $scope.headers = outlineJSON
       $scope.handleClick = (lineNumber) ->
         position = new Point(lineNumber, 0)
@@ -17,44 +17,28 @@ class MarkdownDocumentView
         editor?.moveToEndOfLine(lineNumber)
         editor?.scrollToBufferPosition(position, center: true)
         atom.views.getView(atom.workspace).focus()
+      $scope.isMarkdown = true
+      $scope.selectedHeader = {}
       return
     # Create root element
     @element = document.createElement('div')
     @element.classList.add('markdown-document')
     @element.classList.add('panel')
     @element.id = 'markdown-outline'
-
-    # Create Refresh Button
-    refreshHeading = document.createElement('div')
-    refreshHeading.classList.add('panel-heading')
-    refreshBtn = document.createElement('button')
-    refreshBtn.classList.add('btn')
-    refreshBtn.addEventListener 'click', refreshClick
-    refreshIcon = document.createElement('span')
-    refreshIcon.textContent = 'Refresh'
-    refreshIcon.classList.add('icon')
-    refreshIcon.classList.add('icon-sync')
-    refreshBtn.appendChild(refreshIcon)
-    refreshHeading.appendChild(refreshBtn)
-    @element.appendChild(refreshHeading)
-
-
+    
+    # Variables to change angular scopes outside angular app.
+    appElement = document.querySelector('[ng-app=markdownDocumentApp]')
+    $scope = angular.element(appElement).scope()
+    
     # Create outliner element
     outliner = document.createElement('div')
+    outliner.setAttribute('ng-app', 'markdownDocumentApp')
+    outliner.setAttribute('ng-controller', 'outlineCtrl')
+    outliner.setAttribute('ng-show', 'isMarkdown')
     outliner.classList.add('panel-body')
     outliner.classList.add('padded')
-    outliner.setAttribute('ng-app', 'myApp')
-    outliner.setAttribute('ng-controller', 'myCtrl')
-    outliner.innerHTML = '<ul> <li ng-repeat="headerOne in headers"> <input ng-if="headerOne.children.length > 0" type="checkbox" id="{{headerOne.line}}"> <label ng-if="headerOne.children.length > 0" for="{{headerOne.line}}"></label> <a ng-class="{\'text-warning\': headerOne.headingCaution}" ng-click="handleClick(headerOne.line)">{{headerOne.title}}</a> <ul> <li ng-repeat="headerTwo in headerOne.children"> <input ng-if="headerTwo.children.length > 0" type="checkbox" id="{{headerTwo.line}}"> <label ng-if="headerTwo.children.length > 0" for="{{headerTwo.line}}"></label> <a ng-class="{\'text-warning\': headerTwo.headingCaution}"  ng-click="handleClick(headerTwo.line)">{{headerTwo.title}}</a> <ul> <li ng-repeat="headerThree in headerTwo.children"> <input ng-if="headerThree.children.length > 0" type="checkbox" id="{{headerThree.line}}"> <label ng-if="headerThree.children.length > 0" for="{{headerThree.line}}"></label> <a ng-class="{\'text-warning\': headerThree.headingCaution}"  ng-click="handleClick(headerThree.line)">{{headerThree.title}}</a> <ul> <li ng-repeat="headerFour in headerThree.children"> <input ng-if="headerFour.children.length > 0" type="checkbox" id="{{headerFour.line}}"> <label ng-if="headerFour.children.length > 0" for="{{headerFour.line}}"></label> <a ng-class="{\'text-warning\': headerFour.headingCaution}"  ng-click="handleClick(headerFour.line)">{{headerFour.title}}</a> <ul> <li ng-repeat="headerFive in headerFour.children"> <input ng-if="headerFive.children.length > 0" type="checkbox" id="{{headerFive.line}}"> <label ng-if="headerFive.children.length > 0" for="{{headerFive.line}}"></label> <a ng-class="{\'text-warning\': headerFive.headingCaution}"  ng-click="handleClick(headerFive.line)">{{headerFive.title}}</a> <ul> <li ng-repeat="headerSix in headerFive.children"> <input ng-if="headerSix.children.length > 0" type="checkbox" id="{{headerSix.line}}"> <label ng-if="headerSix.children.length > 0" for="{{headerSix.line}}"></label> <a ng-class="{\'text-warning\': headerSix.headingCaution}"  ng-click="handleClick(headerSix.line)">{{headerSix.title}}</a> </li></ul> </li></ul> </li></ul> </li></ul> </li></ul></li></ul>'
+    outliner.innerHTML = '<ul> <li ng-repeat="headerOne in headers"> <input ng-if="headerOne.children.length > 0" type="checkbox" id="{{headerOne.line}}" value="{{headerOne.slug}}" ng-model="selectedHeader[headerOne.slug]"> <label ng-if="headerOne.children.length > 0" for="{{headerOne.line}}"></label> <a ng-class="{\'text-warning\': headerOne.headingCaution}" ng-click="handleClick(headerOne.line)">{{headerOne.title}}</a> <ul> <li ng-repeat="headerTwo in headerOne.children"> <input ng-if="headerTwo.children.length > 0" type="checkbox" id="{{headerTwo.line}}" value="{{headerTwo.slug}}" ng-model="selectedHeader[headerTwo.slug]"> <label ng-if="headerTwo.children.length > 0" for="{{headerTwo.line}}"></label> <a ng-class="{\'text-warning\': headerTwo.headingCaution}"  ng-click="handleClick(headerTwo.line)">{{headerTwo.title}}</a> <ul> <li ng-repeat="headerThree in headerTwo.children"> <input ng-if="headerThree.children.length > 0" type="checkbox" id="{{headerThree.line}}" value="{{headerThree.slug}}" ng-model="selectedHeader[headerThree.slug]"> <label ng-if="headerThree.children.length > 0" for="{{headerThree.line}}"></label> <a ng-class="{\'text-warning\': headerThree.headingCaution}"  ng-click="handleClick(headerThree.line)">{{headerThree.title}}</a> <ul> <li ng-repeat="headerFour in headerThree.children"> <input ng-if="headerFour.children.length > 0" type="checkbox" id="{{headerFour.line}}" value="{{headerFour.slug}}" ng-model="selectedHeader[headerFour.slug]"> <label ng-if="headerFour.children.length > 0" for="{{headerFour.line}}"></label> <a ng-class="{\'text-warning\': headerFour.headingCaution}"  ng-click="handleClick(headerFour.line)">{{headerFour.title}}</a> <ul> <li ng-repeat="headerFive in headerFour.children"> <input ng-if="headerFive.children.length > 0" type="checkbox" id="{{headerFive.line}}" value="{{headerFive.slug}}" ng-model="selectedHeader[headerFive.slug]"> <label ng-if="headerFive.children.length > 0" for="{{headerFive.line}}"></label> <a ng-class="{\'text-warning\': headerFive.headingCaution}"  ng-click="handleClick(headerFive.line)">{{headerFive.title}}</a> <ul> <li ng-repeat="headerSix in headerFive.children"> <input ng-if="headerSix.children.length > 0" type="checkbox" id="{{headerSix.line}}"> <label ng-if="headerSix.children.length > 0" for="{{headerSix.line}}"></label> <a ng-class="{\'text-warning\': headerSix.headingCaution}"  ng-click="handleClick(headerSix.line)">{{headerSix.title}}</a> </li></ul> </li></ul> </li></ul> </li></ul> </li></ul></li></ul>'
     @element.appendChild(outliner)
-    
-    # Remove all markdown-outline children function
-    removeOutline = ->
-      markdownOutline = document.getElementById('markdown-outline')
-      if markdownOutline != null
-        while markdownOutline.firstChild
-          markdownOutline.removeChild markdownOutline.firstChild
-        return
 
     # Get editor
     editor = atom.workspace.getActiveTextEditor()
@@ -76,7 +60,7 @@ class MarkdownDocumentView
       atom.config.set('MarkdownDocument.enableAutoSave', 'true')
       checkAutoSave = atom.config.get('MarkdownDocument.enableAutoSave')    
     
-    extTest = null
+    extTest = false
     # Check if active layer uses a markdown scope.
     markdownGrammar = ->
       thisGrammar = editor?.getGrammar().scopeName
@@ -103,6 +87,8 @@ class MarkdownDocumentView
       return
       
     outlinedata = ''
+    
+    # toc json includes line numbers. These do change while writing if the document is pre outlined.
       
     testOutlineData = ->
       newOutlinedata = toc(editorContent).json
@@ -110,8 +96,6 @@ class MarkdownDocumentView
       #console.log JSON.stringify(newOutlinedata)
       if JSON.stringify(outlinedata) != JSON.stringify(newOutlinedata)
         #console.log 'Outlinedata Changed!'
-        #removeOutline()
-        #createOutlineRefresh()
         mdContent mdOutline
 
     # Parse markdown file, create toc, and convert to html.
@@ -140,6 +124,7 @@ class MarkdownDocumentView
           line: toc.linkify(heading.lines[0])
           lvl: heading.lvl
           index: heading.i
+          slug: heading.slug
           headingCaution: false
           children: []
         outlineItemCaution =
@@ -147,6 +132,7 @@ class MarkdownDocumentView
           line: toc.linkify(heading.lines[0])
           lvl: heading.lvl
           index: heading.i
+          slug: heading.slug
           headingCaution: true
           children: []
         headingOne = ->
@@ -248,7 +234,7 @@ class MarkdownDocumentView
             outlineItem = outlineItemCaution
             headingTwo()
         return
-      appElement = document.querySelector('[ng-app=myApp]')
+      appElement = document.querySelector('[ng-app=markdownDocumentApp]')
       $scope = angular.element(appElement).scope()
       $scope.$apply ->
         $scope.headers = outlineJSON
@@ -257,8 +243,6 @@ class MarkdownDocumentView
 
     refreshClick =
     @refreshClick = ->
-      #removeOutline()
-      #createOutlineRefresh()
       mdContent mdOutline
 
     # Autosaver, currently only runs if the outline sidebar is open!
@@ -269,27 +253,32 @@ class MarkdownDocumentView
         
     editor.onDidSave =>
       setTimeout (->
-        mdContent mdOutline
+        mdContent testOutlineData
         return
       ), 5000
-      return          
+      return
+      
+    isMarkdownFalse = ->
+      $scope.$apply ->
+        $scope.isMarkdown = false
+        return     
 
     disableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'false')
     enableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'true')
 
     atom.workspace.observeActivePaneItem (activePane) ->
       if activePane == undefined
-        #removeOutline()
         disableAutoSave
+        isMarkdownFalse()
       else
         title = activePane.getTitle()
         # Exceptions for settings, git plus, etc. Sure there's a better way to do this. Haven't found it yet.
         if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide' or title == 'Project Find Results' or title == 'untitled' or title.includes(' Preview')
-          removeOutline()
           disableAutoSave
+          isMarkdownFalse()
         else if activePane?.getURI?()?.includes 'atom:'
-          removeOutline()
           disableAutoSave
+          isMarkdownFalse()
         else
           editor = activePane
           filePath = activePane.getPath()
@@ -299,9 +288,17 @@ class MarkdownDocumentView
             mdContent mdOutline
             if checkAutoSave
               enableAutoSave
+            setTimeout (->
+              $scope.$apply ->
+                $scope.isMarkdown = true
+                $scope.selectedHeader = {}
+                return
+              return
+            ), 500
+            return
           else
-            removeOutline()
             disableAutoSave
+            isMarkdownFalse()
 
 
   # Returns an object that can be retrieved when package is activated

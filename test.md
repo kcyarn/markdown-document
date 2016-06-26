@@ -44,9 +44,19 @@
 
 ###### B.2.1.3.3 Sixth Header
 
-# Another First Header
+# First Header
+
+## check head
+
+# First Header
 
 ## A Second Header
+
+## Added second
+
+Keep writing here. There shouldn't be any changes to the outline.
+
+Again there shouldn't be a change.
 
 ### A Third Header
 
