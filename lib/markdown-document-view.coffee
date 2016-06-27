@@ -45,7 +45,7 @@ class MarkdownDocumentView
     if editor == undefined
       filePath = ''
     else
-      filePath = editor.getPath()
+      filePath = editor.getPath()?.toString()
     editorContent = ''
     outline = ''
     
