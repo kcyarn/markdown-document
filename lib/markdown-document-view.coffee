@@ -273,7 +273,7 @@ class MarkdownDocumentView
       else
         title = activePane.getTitle()
         # Exceptions for settings, git plus, etc. Sure there's a better way to do this. Haven't found it yet.
-        if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide' or title == 'Project Find Results' or title == 'untitled' or title.includes(' Preview')
+        if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide' or title == 'Project Find Results' or title == 'untitled' or title.includes(' Preview') or title.includes('Tasks')
           disableAutoSave
           isMarkdownFalse()
         else if activePane?.getURI?()?.includes 'atom:'
