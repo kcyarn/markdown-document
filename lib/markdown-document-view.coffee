@@ -17,7 +17,6 @@ class MarkdownDocumentView
         editor?.moveToEndOfLine(lineNumber)
         editor?.scrollToBufferPosition(position, center: true)
         atom.views.getView(atom.workspace).focus()
-      $scope.isMarkdown = true
       $scope.selectedHeader = {}
       return
     # Create root element
@@ -25,6 +24,7 @@ class MarkdownDocumentView
     @element.classList.add('markdown-document')
     @element.classList.add('panel')
     @element.id = 'markdown-outline'
+    @element.style.display = 'none'
     
     # Variables to change angular scopes outside angular app.
     appElement = document.querySelector('[ng-app=markdownDocumentApp]')
@@ -34,7 +34,6 @@ class MarkdownDocumentView
     outliner = document.createElement('div')
     outliner.setAttribute('ng-app', 'markdownDocumentApp')
     outliner.setAttribute('ng-controller', 'outlineCtrl')
-    outliner.setAttribute('ng-show', 'isMarkdown')
     outliner.classList.add('panel-body')
     outliner.classList.add('padded')
     outliner.innerHTML = '<ul> <li ng-repeat="headerOne in headers"> <input ng-if="headerOne.children.length > 0" type="checkbox" id="{{headerOne.line}}" value="{{headerOne.slug}}" ng-model="selectedHeader[headerOne.slug]"> <label ng-if="headerOne.children.length > 0" for="{{headerOne.line}}"></label> <a ng-class="{\'text-warning\': headerOne.headingCaution}" ng-click="handleClick(headerOne.line)">{{headerOne.title}}</a> <ul> <li ng-repeat="headerTwo in headerOne.children"> <input ng-if="headerTwo.children.length > 0" type="checkbox" id="{{headerTwo.line}}" value="{{headerTwo.slug}}" ng-model="selectedHeader[headerTwo.slug]"> <label ng-if="headerTwo.children.length > 0" for="{{headerTwo.line}}"></label> <a ng-class="{\'text-warning\': headerTwo.headingCaution}"  ng-click="handleClick(headerTwo.line)">{{headerTwo.title}}</a> <ul> <li ng-repeat="headerThree in headerTwo.children"> <input ng-if="headerThree.children.length > 0" type="checkbox" id="{{headerThree.line}}" value="{{headerThree.slug}}" ng-model="selectedHeader[headerThree.slug]"> <label ng-if="headerThree.children.length > 0" for="{{headerThree.line}}"></label> <a ng-class="{\'text-warning\': headerThree.headingCaution}"  ng-click="handleClick(headerThree.line)">{{headerThree.title}}</a> <ul> <li ng-repeat="headerFour in headerThree.children"> <input ng-if="headerFour.children.length > 0" type="checkbox" id="{{headerFour.line}}" value="{{headerFour.slug}}" ng-model="selectedHeader[headerFour.slug]"> <label ng-if="headerFour.children.length > 0" for="{{headerFour.line}}"></label> <a ng-class="{\'text-warning\': headerFour.headingCaution}"  ng-click="handleClick(headerFour.line)">{{headerFour.title}}</a> <ul> <li ng-repeat="headerFive in headerFour.children"> <input ng-if="headerFive.children.length > 0" type="checkbox" id="{{headerFive.line}}" value="{{headerFive.slug}}" ng-model="selectedHeader[headerFive.slug]"> <label ng-if="headerFive.children.length > 0" for="{{headerFive.line}}"></label> <a ng-class="{\'text-warning\': headerFive.headingCaution}"  ng-click="handleClick(headerFive.line)">{{headerFive.title}}</a> <ul> <li ng-repeat="headerSix in headerFive.children"> <input ng-if="headerSix.children.length > 0" type="checkbox" id="{{headerSix.line}}"> <label ng-if="headerSix.children.length > 0" for="{{headerSix.line}}"></label> <a ng-class="{\'text-warning\': headerSix.headingCaution}"  ng-click="handleClick(headerSix.line)">{{headerSix.title}}</a> </li></ul> </li></ul> </li></ul> </li></ul> </li></ul></li></ul>'
@@ -259,9 +258,17 @@ class MarkdownDocumentView
       return
       
     isMarkdownFalse = ->
-      $scope.$apply ->
-        $scope.isMarkdown = false
-        return     
+      setTimeout (->
+        document.getElementById('markdown-outline').style.display = 'none'
+        return
+      ), 5
+      return
+    isMarkdownTrue = ->
+      setTimeout (->
+        document.getElementById('markdown-outline').style.display = ''
+        return
+      ), 5
+      return      
 
     disableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'false')
     enableAutoSave = atom.config.set('MarkdownDocument.enableAutoSave', 'true')
@@ -272,8 +279,8 @@ class MarkdownDocumentView
         isMarkdownFalse()
       else
         title = activePane.getTitle()
-        # Exceptions for settings, git plus, etc. Sure there's a better way to do this. Haven't found it yet.
-        if title == 'Settings' or title == 'COMMIT_EDITMSG' or title =='Styleguide' or title == 'Project Find Results' or title == 'untitled' or title.includes(' Preview') or title.includes('Tasks')
+        # A better way of handling the exceptions.
+        if activePane?.getURI?()?.includes '://'
           disableAutoSave
           isMarkdownFalse()
         else if activePane?.getURI?()?.includes 'atom:'
@@ -286,20 +293,19 @@ class MarkdownDocumentView
           outline = ''
           if extTest == true
             mdContent mdOutline
+            isMarkdownTrue()
             if checkAutoSave
               enableAutoSave
             setTimeout (->
               $scope.$apply ->
-                $scope.isMarkdown = true
                 $scope.selectedHeader = {}
                 return
               return
-            ), 500
+            ), 1000
             return
           else
             disableAutoSave
-            isMarkdownFalse()
-
+            isMarkdownFalse()          
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->

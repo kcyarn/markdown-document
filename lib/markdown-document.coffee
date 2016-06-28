@@ -19,7 +19,7 @@ module.exports = MarkdownDocument =
 
   activate: (state) ->
     @markdownDocumentView = new MarkdownDocumentView(state.markdownDocumentViewState)
-    @leftPanel = atom.workspace.addLeftPanel(item: @markdownDocumentView.getElement(), visible: false)
+    @leftPanel = atom.workspace.addLeftPanel(item: @markdownDocumentView.getElement(), visible: false, priority: 200)
 
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
@@ -33,7 +33,6 @@ module.exports = MarkdownDocument =
     @subscriptions.dispose()
     @markdownDocumentView.destroy()
     
-
   serialize: ->
     markdownDocumentViewState: @markdownDocumentView.serialize()
 

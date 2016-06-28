@@ -4,8 +4,6 @@
 
 ### A.1 Third Header
 
-[This is a task](#todo:)
-
 #### A.1.1 Fourth Header
 
 ##### A.1.1.1 Fifth Header
