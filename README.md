@@ -5,7 +5,7 @@
 
 Adds tools to make working with long form markdown documents in [Atom](https://atom.io) easier.
 
-![Markdown Document Outline View](http://i.imgur.com/IzBZVJU.gif)
+![Markdown Document Outline View](http://i.imgur.com/T6qpW3Z.gif)
 
 ## Features
 

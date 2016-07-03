@@ -288,7 +288,7 @@ class MarkdownDocumentView
           isMarkdownFalse()
         else
           editor = activePane
-          filePath = activePane.getPath()
+          filePath = activePane?.getPath()?.toString()
           markdownGrammar()
           outline = ''
           if extTest == true
