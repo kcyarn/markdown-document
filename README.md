@@ -1,19 +1,31 @@
 
 # Markdown-Document Package
 
+**I hope to implement a Scriviner-like compiler in the next version. Say you want to break out the first three chapters of your document and send them to an editor or reviewer without sending them what you're currently working on, remove all Note headings, etc... Please contribute your thoughts about this to [#7](https://github.com/kcyarn/markdown-document/issues/7).**
+
 Adds tools to make working with long form markdown documents in [Atom](https://atom.io) easier.
 
 ![Markdown Document Outline View](http://i.imgur.com/IzBZVJU.gif)
 
 ## Features
 
+### Customizable Markdown Source List
+
+- **Markdown Scopes Defined in Settings**
+  - Defaults: 'source.gfm', 'text.md', 'text.plain', 'text.plain.null-grammar'
+
 ### Outline View (`ctrl-alt-o`)
 
-- **Expandable Outline View** 
+- **Expandable Outline View**
+- **Supports Multiple Panes**
 - **Click to go to header**
-- **Refresh Outline** (`Markdown Document: Refresh`) or click the refresh button above the outline.
-
-When adding new headers to the document, the Outline View does not automatically refresh. You must manually refresh the view.
+- **Outline Refreshes on Save**
+  - Although Markdown document attempts to remember which outline items were expanded prior to the save event, adding a new header with the same text prior to an existing header will cause the new header to be expanded and the existing to be contracted. This behavior is not considered a bug.
+  - Swapping between panes always contracts all previously expanded item for the previous pane. I am open to ideas as to how to fix this, but am presently too unfamiliar with Atom's pane implementation to correct this behavior for the 0.2 release.
+- **Handling and Marking Non-Sequential Headers**
+  - For example, if `# Header One` is followed by `### Header Three` instead of `## Header Two`, the outline displays Header Three as if it is Header Two. However, Header Three is colored whatever color your theme uses for caution. (Mine's orange.)
+- **Manual Refresh**
+  - While `Markdown Document: Refresh` still exists, I believe the command is largely unnecessary as refresh is now triggered by the save event. Please let me know if this is not the case for you. Otherwise, this command will be discontinued in the next release.
 
 *Note: Although markdown does not require sequential headers, the outline generator needs at least one first level header. After that, non-sequential headers will be moved up to the next closest level.*
 
@@ -29,14 +41,14 @@ At present, autosave is only available for markdown files when the outline view 
 You can find and trigger features in:
 
 - Open Command Palette (`shift-ctrl-p`), enter `Markdown Document`.
-- Or, go to menubar `Packages -> Markdown Document`.
+- Or, go to menu bar `Packages -> Markdown Document`.
 
 ## Installation
 
 - In Atom, go to Settings (`ctrl-,`), enter `Markdown Document`.
 - Or run `apm install markdown-document`.
 
-When autosave is enabled, the whitespace package automatically deletes the return after headers while you're typing. Markdown-document uses remarkable and a minor fork of markdown-toc. Remarkable is designed for the commonmark syntax, not gfm. It seems to work fine with gfm, but it hasn't been extensibly tested.
+When autosave is enabled, the whitespace package automatically deletes the return after headers while you're typing. Markdown-document uses remarkable and a minor fork of markdown-toc. Remarkable is designed for the commonmark syntax, not gfm. It seems to work fine with gfm, but it hasn't been extensively tested.
 
 The whitespace package does not play well with [language-markdown](https://atom.io/packages/language-markdown). See [Issue 115](https://github.com/burodepeper/language-markdown/issues/115) for further information and a possible workaround. I personally dislike the whitespace package and prefer everything remain exactly as I typed it so it's disabled on my machine. Please let me know should this be an issue.
 
@@ -46,25 +58,25 @@ Go to Settings (`ctrl-,`) -> Packages -> `Markdown Document` -> Settings.
 
 Check `Enable Autosave` to enable the autosaver. 
 
-## Roadmap
+## Road Map
 
 Must Haves:
 
 - Compiler GUI
     * Pick and choose which headers and their associated content output to a new file.
     * Multiple formats.
-    * Will use pandoc because that's what my current workflow uses.
-- Spellcheck GUI modeled after Atom's Find.
+    * Will use pandoc because that's what my current work flow uses.
+- Spell check GUI modeled after Atom's Find.
     * Would love project-level dictionaries.
 - Writing Goals
 - Improved writing stats. [Wordcount](https://atom.io/packages/wordcount) is nice, but I personally need more data.
 
 Maybes:
 
-- Automatic trackchanges that outputs CriticMarkup
+- Automatic track changes that outputs CriticMarkup
     * Track changes is essential. However, accepting/rejecting changes from a git diff may be a better idea than CriticMarkup. I've used both, but am still on the fence about this. Opinions wanted! See [Issue 2](https://github.com/kcyarn/markdown-document/issues/2).
 - Show current location in Outline view.
--  Autoscrolling project notes in side pane.
+-  Auto-scrolling project notes in side pane.
 - Enable autosave when outline view isn't visible.
 - Reorder document by headers.
     * Possible, but is it desirable?
