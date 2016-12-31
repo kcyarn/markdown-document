@@ -7,6 +7,7 @@ module.exports = MarkdownDocument =
       type: 'boolean'
       default: false
       order: 0
+    
     markdownScopes:
       type: 'array'
       default: ['source.gfm', 'text.md', 'text.plain', 'text.plain.null-grammar']
