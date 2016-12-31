@@ -1,4 +1,3 @@
-
 # Markdown-Document Package
 
 **I hope to implement a Scriviner-like compiler in the next version. Say you want to break out the first three chapters of your document and send them to an editor or reviewer without sending them what you're currently working on, remove all Note headings, etc... Please contribute your thoughts about this to [#7](https://github.com/kcyarn/markdown-document/issues/7).**
@@ -56,27 +55,4 @@ The whitespace package does not play well with [language-markdown](https://atom.
 
 Go to Settings (`ctrl-,`) -> Packages -> `Markdown Document` -> Settings.
 
-Check `Enable Autosave` to enable the autosaver. 
-
-## Road Map
-
-Must Haves:
-
-- Compiler GUI
-    * Pick and choose which headers and their associated content output to a new file.
-    * Multiple formats.
-    * Will use pandoc because that's what my current work flow uses.
-- Spell check GUI modeled after Atom's Find.
-    * Would love project-level dictionaries.
-- Writing Goals
-- Improved writing stats. [Wordcount](https://atom.io/packages/wordcount) is nice, but I personally need more data.
-
-Maybes:
-
-- Automatic track changes that outputs CriticMarkup
-    * Track changes is essential. However, accepting/rejecting changes from a git diff may be a better idea than CriticMarkup. I've used both, but am still on the fence about this. Opinions wanted! See [Issue 2](https://github.com/kcyarn/markdown-document/issues/2).
-- Show current location in Outline view.
--  Auto-scrolling project notes in side pane.
-- Enable autosave when outline view isn't visible.
-- Reorder document by headers.
-    * Possible, but is it desirable?
+Check `Enable Autosave` to enable the autosaver.
