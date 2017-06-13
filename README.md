@@ -1,6 +1,6 @@
 # Markdown-Document Package
 
-**I hope to implement a Scriviner-like compiler in the next version. Say you want to break out the first three chapters of your document and send them to an editor or reviewer without sending them what you're currently working on, remove all Note headings, etc... Please contribute your thoughts about this to [#7](https://github.com/kcyarn/markdown-document/issues/7).**
+**This package will not work for Atom versions 1.13 and higher. It is deprecated in favor of [document-outline](https://atom.io/packages/document-outline).**
 
 Adds tools to make working with long form markdown documents in [Atom](https://atom.io) easier.
 
