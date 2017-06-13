@@ -1,7 +1,7 @@
 {
   "name": "markdown-document",
   "main": "./lib/markdown-document",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "MIT",
   "description": "Adds tools to make working with long form markdown documents in Atom easier.",
   "keywords": [
